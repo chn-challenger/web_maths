@@ -1,30 +1,33 @@
 require './generators/question'
 
 describe Questions do
+
   describe '#fraction_question' do
     context 'it can generates random fraction addition questions' do
-      before(:all) do
-        dummy_class = Class.new{include Questions}.new
-        @question = dummy_class.fraction_question
+      shared_context 'example addition question' do
+        before(:all) do
+          srand(100)
+          dummy_class = Class.new{include Questions}.new
+          @question = dummy_class.fraction_question
+        end
       end
+
+      include_context 'example addition question'
 
       it 'has operator of addition' do
         expect(@question[:operator]).to eq 'addition'
       end
 
       it 'generates a fraction for the addition' do
-        fraction1 = Fraction.new(1,2,3)
-        expect(@question[:fraction1]).to eq fraction1
+        expect(@question[:fraction1]).to eq Fraction.new(8,2,5)
       end
 
       it 'generates another fraction for the addition' do
-        fraction2 = Fraction.new(2,4,5)
-        expect(@question[:fraction2]).to eq fraction2
+        expect(@question[:fraction2]).to eq Fraction.new(7,8,9)
       end
 
       it 'generates solution to the question' do
-        solution = Fraction.new(4,7,15)
-        expect(@question[:solution]).to eq solution
+        expect(@question[:solution]).to eq Fraction.new(16,13,45)
       end
     end
   end

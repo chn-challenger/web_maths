@@ -11,7 +11,8 @@ module Questions
 
   def fraction_question(operation='addition',integer_range=10,fraction_range=10)
     return _addition(integer_range,fraction_range) if operation == 'addition'
-    return _subtract(integer_range,fraction_range) if operation == 'subtract'
+    return _subtraction(integer_range,fraction_range) if operation == 'subtract'
+    return _multiplication(integer_range,fraction_range) if operation == 'multiply'
   end
 
   private
@@ -23,7 +24,7 @@ module Questions
       solution: fraction1.add(fraction2)}
   end
 
-  def _subtract(integer_range,fraction_range)
+  def _subtraction(integer_range,fraction_range)
     fraction1 = random_fraction(integer_range,fraction_range)
     while true
       fraction2 = random_fraction(integer_range,fraction_range)
@@ -31,6 +32,13 @@ module Questions
     end
     {operator: 'subtract',fraction1: fraction1,fraction2: fraction2,
       solution: fraction1.subtract(fraction2)}
+  end
+
+  def _multiplication(integer_range,fraction_range)
+    fraction1 = random_fraction((integer_range*0.6).to_i,(fraction_range*0.8).to_i)
+    fraction2 = random_fraction((integer_range*0.6).to_i,(fraction_range*0.8).to_i)
+    {operator: 'multiply',fraction1: fraction1,fraction2: fraction2,
+      solution: fraction1.multiply(fraction2)}
   end
 
 end

@@ -102,15 +102,15 @@ describe Questions do
       end
 
       it 'generates a fraction for the multiplication' do
-        expect(@question[:fraction1]).to eq Fraction.new(8,2,5)
+        expect(@question[:fraction1]).to eq Fraction.new(1,2,3)
       end
 
       it 'generates another fraction for the multiplication' do
-        expect(@question[:fraction2]).to eq Fraction.new(7,8,9)
+        expect(@question[:fraction2]).to eq Fraction.new(2,1,2)
       end
 
       it 'generates solution to the question' do
-        expect(@question[:solution]).to eq Fraction.new(16,13,45)
+        expect(@question[:solution]).to eq Fraction.new(4,1,6)
       end
     end
 

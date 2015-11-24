@@ -85,35 +85,35 @@ describe Questions do
         expect(@question[:solution]).to eq Fraction.new(5,17,18)
       end
     end
-    
-    # context 'it can generates random fraction addition questions' do
-    #   shared_context 'example addition question' do
-    #     before(:all) do
-    #       srand(100)
-    #       dummy_class = Class.new{include Questions}.new
-    #       @question = dummy_class.fraction_question
-    #     end
-    #   end
-    #
-    #   include_context 'example addition question'
-    #
-    #   it 'has operator of addition' do
-    #     expect(@question[:operator]).to eq 'addition'
-    #   end
-    #
-    #   it 'generates a fraction for the addition' do
-    #     expect(@question[:fraction1]).to eq Fraction.new(8,2,5)
-    #   end
-    #
-    #   it 'generates another fraction for the addition' do
-    #     expect(@question[:fraction2]).to eq Fraction.new(7,8,9)
-    #   end
-    #
-    #   it 'generates solution to the question' do
-    #     expect(@question[:solution]).to eq Fraction.new(16,13,45)
-    #   end
-    # end
-    #
+
+    context 'it can generates random fraction multiplication questions' do
+      shared_context 'example multiplication question' do
+        before(:all) do
+          srand(300)
+          dummy_class = Class.new{include Questions}.new
+          @question = dummy_class.fraction_question('multiply')
+        end
+      end
+
+      include_context 'example multiplication question'
+
+      it 'has operator of multiply' do
+        expect(@question[:operator]).to eq 'multiply'
+      end
+
+      it 'generates a fraction for the multiplication' do
+        expect(@question[:fraction1]).to eq Fraction.new(8,2,5)
+      end
+
+      it 'generates another fraction for the multiplication' do
+        expect(@question[:fraction2]).to eq Fraction.new(7,8,9)
+      end
+
+      it 'generates solution to the question' do
+        expect(@question[:solution]).to eq Fraction.new(16,13,45)
+      end
+    end
+
     # context 'it can generates random fraction addition questions' do
     #   shared_context 'example addition question' do
     #     before(:all) do

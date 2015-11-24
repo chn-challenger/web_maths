@@ -9,14 +9,24 @@ class Fraction
   end
 
   def simplify
-    divide_out_gcd
-    reduce_topheavy
+    _divide_out_gcd
+    _reduce_topheavy
     self
   end
 
   def ==(fraction)
     (integer == fraction.integer) && (numerator == fraction.numerator) &&
       (denominator == fraction.denominator)
+  end
+
+  def >(fraction)
+    self_topheavy = self.mixed_to_topheavy
+    fraction_topheavy = fraction.mixed_to_topheavy
+    self_topheavy.numerator.to_f/self_topheavy.denominator > fraction_topheavy.numerator.to_f/fraction_topheavy.denominator
+  end
+
+  def <(fraction)
+    !(self > fraction) && !(self.same_value?(fraction))
   end
 
   def same_value?(fraction)
@@ -26,13 +36,14 @@ class Fraction
   end
 
   def mixed_to_topheavy
-    @numerator += integer * denominator
-    @integer = 0
+    new_numerator = numerator + integer * denominator
+    Fraction.new(0,new_numerator,denominator)
   end
 
   def topheavy_to_mixed
-    @integer = numerator / denominator
-    @numerator -= integer * denominator
+    new_integer = numerator / denominator
+    new_numerator = numerator - new_integer * denominator
+    Fraction.new(new_integer,new_numerator,denominator)
   end
 
   def add(fraction)
@@ -49,29 +60,29 @@ class Fraction
   end
 
   def multiply(fraction)
-    self.simplify.mixed_to_topheavy
-    fraction.simplify.mixed_to_topheavy
-    result_numerator = numerator * fraction.numerator
-    result_denominator = denominator * fraction.denominator
+    fraction1 = self.simplify.mixed_to_topheavy
+    fraction2 = fraction.simplify.mixed_to_topheavy
+    result_numerator = fraction1.numerator * fraction2.numerator
+    result_denominator = fraction1.denominator * fraction2.denominator
     Fraction.new(0,result_numerator,result_denominator).simplify
   end
 
   def divide(fraction)
-    self.simplify.mixed_to_topheavy
-    fraction.simplify.mixed_to_topheavy
-    fraction = Fraction.new(0,fraction.denominator,fraction.numerator)
-    self.multiply(fraction)
+    fraction1 = self.simplify.mixed_to_topheavy
+    fraction2 = fraction.simplify.mixed_to_topheavy
+    fraction = Fraction.new(0,fraction2.denominator,fraction2.numerator)
+    fraction1.multiply(fraction)
   end
 
   private
 
-  def reduce_topheavy
+  def _reduce_topheavy
     extra_int_part = numerator / denominator
     @integer += extra_int_part
     @numerator -= denominator * extra_int_part
   end
 
-  def divide_out_gcd
+  def _divide_out_gcd
     gcd = self.numerator.gcd(denominator)
     @numerator /= gcd
     @denominator /= gcd

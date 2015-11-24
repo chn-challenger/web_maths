@@ -58,7 +58,45 @@ describe Fraction do
     let(:fraction2){described_class.new(2,5,8)}
 
     it 'two fractions to be equal if they have the same parts' do
-      expect(fraction1).to eq fraction2
+      expect(fraction1 == fraction2).to be true
+    end
+  end
+
+  describe '#>' do
+    let(:fraction1){described_class.new(3,5,8)}
+    let(:fraction2){described_class.new(2,5,8)}
+    let(:fraction3){described_class.new(0,35,8)}
+    let(:fraction4){described_class.new(1,26,16)}
+
+    it 'is true when fraction is greater than another fraction' do
+      expect(fraction1 > fraction2).to be true
+    end
+
+    it 'returns false when the two fractions are equal' do
+      expect(fraction2 > fraction4).to be false
+    end
+
+    it 'can compare mixed and top-heavy fractions' do
+      expect(fraction1 > fraction3).to be false
+    end
+  end
+
+  describe '#<' do
+    let(:fraction1){described_class.new(3,5,8)}
+    let(:fraction2){described_class.new(2,5,8)}
+    let(:fraction3){described_class.new(0,35,8)}
+    let(:fraction4){described_class.new(1,26,16)}
+
+    it 'is false when fraction is greater than another fraction' do
+      expect(fraction1 < fraction2).to be false
+    end
+
+    it 'returns false when the two fractions are equal' do
+      expect(fraction2 < fraction4).to be false
+    end
+
+    it 'can compare mixed and top-heavy fractions' do
+      expect(fraction1 < fraction3).to be true
     end
   end
 
@@ -76,8 +114,13 @@ describe Fraction do
     let(:fraction2){described_class.new(2,5,8)}
 
     it 'changes a mixed fraction into a top-heavy fraction' do
+      new_fraction = fraction1.mixed_to_topheavy
+      expect(new_fraction.integer).to eq 0
+    end
+
+    it 'does not change the original fraction' do
       fraction1.mixed_to_topheavy
-      expect(fraction1.integer).to eq 0
+      expect(fraction1.integer).to eq 2
     end
 
     it 'the changed mixed fraction has the same value as before' do
@@ -91,8 +134,13 @@ describe Fraction do
     let(:fraction2){described_class.new(0,21,8)}
 
     it 'changes a top-heavy fraction into a mixed fraction' do
+      new_fraction = fraction1.topheavy_to_mixed
+      expect(new_fraction.integer).to eq 2
+    end
+
+    it 'does not change the original fraction' do
       fraction1.topheavy_to_mixed
-      expect(fraction1.integer).to eq 2
+      expect(fraction1.integer).to eq 0
     end
 
     it 'the changed top-heavy fraction has the same value as before' do

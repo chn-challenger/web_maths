@@ -188,4 +188,143 @@ describe Fraction do
       expect(fraction1.divide(fraction2)).to eq result_fraction
     end
   end
+
+  describe '#random' do
+    shared_context 'a random fraction' do
+      before(:all) do
+        srand(100)
+        @fraction = Fraction.random
+      end
+    end
+
+    include_context 'a random fraction'
+
+    it 'has a random integer part' do
+      expect(@fraction.integer).to eq 8
+    end
+
+    it 'has a random numerator' do
+      expect(@fraction.numerator).to eq 2
+    end
+
+    it 'has a random denominator' do
+      expect(@fraction.denominator).to eq 5
+    end
+
+    it 'has is a proper fraction' do
+      expect(@fraction.numerator < @fraction.denominator).to be true
+    end
+  end
+
+  describe '#question' do
+    context 'it can generates random fraction addition questions' do
+      shared_context 'example addition question' do
+        before(:all) do
+          srand(100)
+          @question = Fraction.question
+        end
+      end
+
+      include_context 'example addition question'
+
+      it 'has operator of addition' do
+        expect(@question[:operator]).to eq 'addition'
+      end
+
+      it 'generates a fraction for the addition' do
+        expect(@question[:fraction1]).to eq Fraction.new(8,2,5)
+      end
+
+      it 'generates another fraction for the addition' do
+        expect(@question[:fraction2]).to eq Fraction.new(7,8,9)
+      end
+
+      it 'generates solution to the question' do
+        expect(@question[:solution]).to eq Fraction.new(16,13,45)
+      end
+    end
+
+    context 'it can generates random fraction subtraction questions' do
+      shared_context 'example subtraction question' do
+        before(:all) do
+          srand(200)
+          @question = Fraction.question('subtract')
+        end
+      end
+
+      include_context 'example subtraction question'
+
+      it 'has operator of subtraction' do
+        expect(@question[:operator]).to eq 'subtract'
+      end
+
+      it 'generates a fraction for the subtraction' do
+        expect(@question[:fraction1]).to eq Fraction.new(10,1,2)
+      end
+
+      it 'generates another fraction for the subtraction' do
+        expect(@question[:fraction2]).to eq Fraction.new(4,5,9)
+      end
+
+      it 'generates solution to the question' do
+        expect(@question[:solution]).to eq Fraction.new(5,17,18)
+      end
+    end
+
+    context 'it can generates random fraction multiplication questions' do
+      shared_context 'example multiplication question' do
+        before(:all) do
+          srand(300)
+          @question = Fraction.question('multiply')
+        end
+      end
+
+      include_context 'example multiplication question'
+
+      it 'has operator of multiply' do
+        expect(@question[:operator]).to eq 'multiply'
+      end
+
+      it 'generates a fraction for the multiplication' do
+        expect(@question[:fraction1]).to eq Fraction.new(1,2,3)
+      end
+
+      it 'generates another fraction for the multiplication' do
+        expect(@question[:fraction2]).to eq Fraction.new(2,1,2)
+      end
+
+      it 'generates solution to the question' do
+        expect(@question[:solution]).to eq Fraction.new(4,1,6)
+      end
+    end
+
+    context 'it can generates random fraction division questions' do
+      shared_context 'example division question' do
+        before(:all) do
+          srand(400)
+          @question = Fraction.question('divide')
+        end
+      end
+
+      include_context 'example division question'
+
+      it 'has operator of divide' do
+        expect(@question[:operator]).to eq 'divide'
+      end
+
+      it 'generates a fraction for the division' do
+        expect(@question[:fraction1]).to eq Fraction.new(4,1,4)
+      end
+
+      it 'generates another fraction for the division' do
+        expect(@question[:fraction2]).to eq Fraction.new(4,4,5)
+      end
+
+      it 'generates solution to the question' do
+        expect(@question[:solution]).to eq Fraction.new(0,85,96)
+      end
+    end
+  end
+
+
 end

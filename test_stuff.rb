@@ -1,4 +1,4 @@
-require './generators/fraction'
+# require './generators/fraction'
 
 # p Fraction.new(1,2,3)
 # f1 = Fraction.new(1,7,5)
@@ -38,4 +38,8 @@ require './generators/fraction'
 # Fraction.new(0,result_numerator,result_denominator).simplify
 
 
-p rand(2..6)
+
+filename = 'testfile.txt'
+file_content = 'totally new\\\ stuff'
+file_content += '\\\hihihi'
+puts file_content

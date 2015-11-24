@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.20)  23 NOV 2015 13:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.24)  24 NOV 2015 18:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -140,7 +140,7 @@ Package scrlfile, 2015/05/06 v3.17a KOMA-Script package (loading files)
 )))
 LaTeX Info: Redefining \textsubscript on input line 1265.
 )
-LaTeX Font Info:    Try loading font information for OT1+iwona on input line 7.
+LaTeX Font Info:    Try loading font information for OT1+iwona on input line 5.
 
  (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/ot1iwona.fd
 File: ot1iwona.fd 2008/07/22 v0.995 font definition file for OT1/iwona (MW)
@@ -178,18 +178,18 @@ Package: setspace 2011/12/19 v6.7a set line spacing
 (./fractions_example.aux)
 \openout1 = `fractions_example.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -225,25 +225,25 @@ LaTeX Font Info:    ... okay on input line 15.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Calculating math sizes for size <18> on input line 22.
-LaTeX Font Info:    Try loading font information for OT1+iwonam on input line 2
-2.
+LaTeX Font Info:    Calculating math sizes for size <18> on input line 18.
+LaTeX Font Info:    Try loading font information for OT1+iwonam on input line 1
+8.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/ot1iwonam.fd
 File: ot1iwonam.fd 2005/10/05 v1.2 font definition file for OT1/iwonam (MW)
 )
-LaTeX Font Info:    Try loading font information for OML+iwona on input line 22
+LaTeX Font Info:    Try loading font information for OML+iwona on input line 18
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omliwona.fd
 File: omliwona.fd 2008/07/22 v0.995 font definition file for OML/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMS+iwona on input line 22
+LaTeX Font Info:    Try loading font information for OMS+iwona on input line 18
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omsiwona.fd
 File: omsiwona.fd 2008/07/22 v0.995 font definition file for OMS/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMX+iwona on input line 22
+LaTeX Font Info:    Try loading font information for OMX+iwona on input line 18
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omxiwona.fd

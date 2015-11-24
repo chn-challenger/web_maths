@@ -85,7 +85,7 @@ describe Questions do
         expect(@question[:solution]).to eq Fraction.new(5,17,18)
       end
     end
-    #
+    
     # context 'it can generates random fraction addition questions' do
     #   shared_context 'example addition question' do
     #     before(:all) do

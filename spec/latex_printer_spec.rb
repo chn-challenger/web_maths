@@ -108,7 +108,7 @@ describe LatexPrinter do
     shared_context 'generate a random fraction sheet and answers' do
       before(:all) do
         srand(200)
-        @sheet = LatexPrinter.fraction_sheet('Test')
+        @sheet = LatexPrinter.fraction_sheet('Test Worksheet','Adam Smith')
       end
     end
 
@@ -117,33 +117,39 @@ describe LatexPrinter do
     it 'can generate a random latex fractions sheet' do
       expected_sheet = "\\documentclass{article}\n\\usepackage[math]{iwona}\n"\
         "\\usepackage[fleqn]{amsmath}\n\\usepackage{scrextend}\n\\changefontsi"\
-        "zes[20pt]{17pt}\n\\usepackage[margin=0.7in]{geometry}\n\\pagenumberin"\
-        "g{gobble}\n\\begin{document}\n\\section*{\\centerline{Fraction Worksh"\
-        "eet Test}}\n\\vspace{10 mm}\n\\begin{align*}\n&1.\\hspace{15pt}1\\fra"\
-        "c{1}{2}\\times4\\frac{1}{4}&&2.\\hspace{15pt}1\\frac{1}{2}\\div1\\fra"\
-        "c{2}{3}\\\\[2em]\n&3.\\hspace{15pt}2\\frac{1}{2}\\times1\\frac{4}{5}&"\
-        "&4.\\hspace{15pt}1\\frac{2}{3}-1\\frac{1}{10}\\\\[2em]\n&5.\\hspace{1"\
-        "5pt}10\\frac{7}{8}+3\\frac{5}{6}&&6.\\hspace{15pt}6\\frac{1}{4}\\time"\
-        "s3\\frac{1}{6}\\\\[2em]\n&7.\\hspace{15pt}4\\frac{3}{4}-1\\frac{2}{3}"\
-        "&&8.\\hspace{15pt}\\frac{3}{7}\\times6\\frac{4}{7}\\\\[2em]\n&9.\\hsp"\
-        "ace{15pt}4\\frac{3}{5}\\times6\\frac{2}{3}&&10.\\hspace{15pt}1\\frac{"\
-        "2}{7}\\div\\frac{1}{5}\n\\end{align*}\n\\end{document}"
-        puts @sheet[:questions_sheet]
+        "zes[20pt]{17pt}\n\\usepackage[a4paper, left=0.7in,right=0.7in,top=1in"\
+        ",bottom=1in]{geometry}\n\\pagenumbering{gobble}\n\\usepackage{fancyhd"\
+        "r}\n\\renewcommand{\\headrulewidth}{0pt}\n\\pagestyle{fancy}\n\\lfoot"\
+        "{FRA-HY436079Q\\quad \\textcopyright\\, Joe Zhou, 2015}\n\\rfoot{\\te"\
+        "xtit{student:}\\quad Adam Smith}\n\\begin{document}\n\\section*{\\cen"\
+        "terline{Fraction Test Worksheet}}\n\\vspace{10 mm}\n\\begin{align*}\n"\
+        "&1.\\hspace{15pt}1\\frac{1}{2}\\times4\\frac{1}{4}&&2.\\hspace{15pt}1"\
+        "\\frac{1}{2}\\div1\\frac{2}{3}\\\\[2em]\n&3.\\hspace{15pt}2\\frac{1}{"\
+        "2}\\times1\\frac{4}{5}&&4.\\hspace{15pt}1\\frac{2}{3}-1\\frac{1}{10}"\
+        "\\\\[2em]\n&5.\\hspace{15pt}10\\frac{7}{8}+3\\frac{5}{6}&&6.\\hspace{"\
+        "15pt}6\\frac{1}{4}\\times3\\frac{1}{6}\\\\[2em]\n&7.\\hspace{15pt}4\\"\
+        "frac{3}{4}-1\\frac{2}{3}&&8.\\hspace{15pt}\\frac{3}{7}\\times6\\frac{"\
+        "4}{7}\\\\[2em]\n&9.\\hspace{15pt}4\\frac{3}{5}\\times6\\frac{2}{3}&&1"\
+        "0.\\hspace{15pt}1\\frac{2}{7}\\div\\frac{1}{5}\n\\end{align*}\n\\end{"\
+        "document}"
       expect(@sheet[:questions_sheet]).to eq expected_sheet
     end
 
     it 'can generate the corresponding solution sheet' do
       expected_solutions = "\\documentclass{article}\n\\usepackage[math]{iwona"\
       "}\n\\usepackage[fleqn]{amsmath}\n\\usepackage{scrextend}\n\\changefonts"\
-      "izes[20pt]{17pt}\n\\usepackage[margin=0.7in]{geometry}\n\\pagenumbering"\
-      "{gobble}\n\\begin{document}\n\\section*{\\centerline{Fraction Worksheet"\
-      " Test Solutions}}\n\\vspace{10 mm}\n\\begin{align*}\n&1.\\hspace{15pt}6"\
-      "\\frac{3}{8}&&2.\\hspace{15pt}\\frac{9}{10}\\\\[2em]\n&3.\\hspace{15pt}"\
-      "4\\frac{1}{2}&&4.\\hspace{15pt}\\frac{17}{30}\\\\[2em]\n&5.\\hspace{15p"\
-      "t}14\\frac{17}{24}&&6.\\hspace{15pt}19\\frac{19}{24}\\\\[2em]\n&7.\\hsp"\
-      "ace{15pt}3\\frac{1}{12}&&8.\\hspace{15pt}2\\frac{40}{49}\\\\[2em]\n&9."\
-      "\\hspace{15pt}30\\frac{2}{3}&&10.\\hspace{15pt}6\\frac{3}{7}\n\\end{ali"\
-      "gn*}\n\\end{document}"
+      "izes[20pt]{17pt}\n\\usepackage[a4paper, left=0.7in,right=0.7in,top=1in,"\
+      "bottom=1in]{geometry}\n\\pagenumbering{gobble}\n\\usepackage{fancyhdr}"\
+      "\n\\renewcommand{\\headrulewidth}{0pt}\n\\pagestyle{fancy}\n\\lfoot{FRA"\
+      "-HY436079A\\quad \\textcopyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{s"\
+      "tudent:}\\quad Adam Smith}\n\\begin{document}\n\\section*{\\centerline{"\
+      "Fraction Test Worksheet Solutions}}\n\\vspace{10 mm}\n\\begin{align*}\n"\
+      "&1.\\hspace{15pt}6\\frac{3}{8}&&2.\\hspace{15pt}\\frac{9}{10}\\\\[2em]"\
+      "\n&3.\\hspace{15pt}4\\frac{1}{2}&&4.\\hspace{15pt}\\frac{17}{30}\\\\[2e"\
+      "m]\n&5.\\hspace{15pt}14\\frac{17}{24}&&6.\\hspace{15pt}19\\frac{19}{24}"\
+      "\\\\[2em]\n&7.\\hspace{15pt}3\\frac{1}{12}&&8.\\hspace{15pt}2\\frac{40}"\
+      "{49}\\\\[2em]\n&9.\\hspace{15pt}30\\frac{2}{3}&&10.\\hspace{15pt}6\\fra"\
+      "c{3}{7}\n\\end{align*}\n\\end{document}"
       expect(@sheet[:solutions_sheet]).to eq expected_solutions
     end
 

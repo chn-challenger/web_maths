@@ -1,20 +1,24 @@
 require './generators/fraction'
+require './generators/serial'
+include SerialNumber
 
 class LatexPrinter
 
   QUESTION_AND_NUMBER_SPACING = 15
   LINE_SPACING = 2
   TITLE_CONTENT_SPACE = 10
-  MAX_QUESTIONS_PER_ROW = 4  #used for much later
+  TOPIC_PREFIX = 'FRA'
 
   HEADERS = "\\documentclass{article}\n"\
     "\\usepackage[math]{iwona}\n"\
     "\\usepackage[fleqn]{amsmath}\n"\
     "\\usepackage{scrextend}\n"\
     "\\changefontsizes[20pt]{17pt}\n"\
-    "\\usepackage[margin=0.7in]{geometry}\n"\
+    "\\usepackage[a4paper, left=0.7in,right=0.7in,top=1in,bottom=1in]{geometry}\n"\
     "\\pagenumbering{gobble}\n"\
-    "\\begin{document}\n"
+    "\\usepackage{fancyhdr}\n"\
+    "\\renewcommand{\\headrulewidth}{0pt}\n"\
+    "\\pagestyle{fancy}\n"
 
   def self.fraction_question(question)
     question_latex = self._latex_fraction(question[:fraction1]) +
@@ -54,26 +58,31 @@ class LatexPrinter
     {questions: latex_questions,solutions: latex_solutions}
   end
 
-  def self.fraction_sheet(title='',questions_per_row=2,number_of_rows=5,operation=['add','subtract','multiply','divide'],
+  def self.fraction_sheet(title='',student='',questions_per_row=2,number_of_rows=5,
+    operation=['add','subtract','multiply','divide'],
     integer_range=10,fraction_range=10)
-    # latex_questions_sheet = HEADERS
-    # latex_questions_sheet += "\\section*{\\centerline{Fraction Worksheet #{title}}}\n\\vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
-    # content = self.fraction_sheet_content(questions_per_row,number_of_rows,operation,integer_range,fraction_range)[:questions]
-    # latex_questions_sheet += content + "\\end{align*}\n\\end{document}"
-    # {fraction_sheet:latex_questions_sheet}
 
-    content = self.fraction_sheet_content(questions_per_row,number_of_rows,operation,integer_range,fraction_range)
+    content = self.fraction_sheet_content(questions_per_row,number_of_rows,
+      operation,integer_range,fraction_range)
+    serial = generate_serial
 
     latex_questions_sheet = HEADERS
-    latex_questions_sheet += "\\section*{\\centerline{Fraction Worksheet #{title}}}\n\\vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
+    latex_questions_sheet += "\\lfoot{#{TOPIC_PREFIX}-#{serial}Q\\quad \\textc"\
+      "opyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{student:}\\quad"\
+      " #{student}}\n\\begin{document}\n"
+    latex_questions_sheet += "\\section*{\\centerline{Fraction #{title}}}\n\\"\
+      "vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
     latex_questions_sheet += content[:questions] + "\\end{align*}\n\\end{document}"
 
     latex_solutions_sheet = HEADERS
-    latex_solutions_sheet += "\\section*{\\centerline{Fraction Worksheet #{title} Solutions}}\n\\vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
+    latex_solutions_sheet += "\\lfoot{#{TOPIC_PREFIX}-#{serial}A\\quad \\textc"\
+      "opyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{student:}\\quad"\
+      " #{student}}\n\\begin{document}\n"
+    latex_solutions_sheet += "\\section*{\\centerline{Fraction #{title} Soluti"\
+      "ons}}\n\\vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
     latex_solutions_sheet += content[:solutions] + "\\end{align*}\n\\end{document}"
 
     {questions_sheet:latex_questions_sheet,solutions_sheet:latex_solutions_sheet}
-
   end
 
   private
@@ -94,6 +103,3 @@ class LatexPrinter
   end
 
 end
-
-# test = LatexPrinter.fraction_sheet('Test',3,6)[:fraction_sheet]
-# puts test

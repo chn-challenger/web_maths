@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.20)  25 NOV 2015 14:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.24)  25 NOV 2015 17:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -172,39 +172,50 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen119
 \Gm@dimlist=\toks20
 )
+(/usr/local/texlive/2015/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip46
+\f@ncyO@elh=\skip47
+\f@ncyO@erh=\skip48
+\f@ncyO@olh=\skip49
+\f@ncyO@orh=\skip50
+\f@ncyO@elf=\skip51
+\f@ncyO@erf=\skip52
+\f@ncyO@olf=\skip53
+\f@ncyO@orf=\skip54
+)
 (./fractions_example.aux)
 \openout1 = `fractions_example.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
-* paper: <default>
+* paper: a4paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(50.58878pt, 513.11745pt, 50.58878pt)
-* v-part:(T,H,B)=(50.58878pt, 693.79243pt, 50.58878pt)
-* \paperwidth=614.295pt
-* \paperheight=794.96999pt
-* \textwidth=513.11745pt
-* \textheight=693.79243pt
+* h-part:(L,W,R)=(50.58878pt, 496.33032pt, 50.58878pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=496.33032pt
+* \textheight=700.50687pt
 * \oddsidemargin=-21.68121pt
 * \evensidemargin=-21.68121pt
-* \topmargin=-58.68121pt
+* \topmargin=-37.0pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=10.0pt
@@ -222,48 +233,57 @@ LaTeX Font Info:    ... okay on input line 87.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Calculating math sizes for size <17> on input line 90.
+LaTeX Font Info:    Calculating math sizes for size <17> on input line 97.
 LaTeX Font Info:    Try loading font information for OT1+iwonam on input line 9
-0.
+7.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/ot1iwonam.fd
 File: ot1iwonam.fd 2005/10/05 v1.2 font definition file for OT1/iwonam (MW)
 )
-LaTeX Font Info:    Try loading font information for OML+iwona on input line 90
+LaTeX Font Info:    Try loading font information for OML+iwona on input line 97
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omliwona.fd
 File: omliwona.fd 2008/07/22 v0.995 font definition file for OML/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMS+iwona on input line 90
+LaTeX Font Info:    Try loading font information for OMS+iwona on input line 97
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omsiwona.fd
 File: omsiwona.fd 2008/07/22 v0.995 font definition file for OMS/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMX+iwona on input line 90
+LaTeX Font Info:    Try loading font information for OMX+iwona on input line 97
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omxiwona.fd
 File: omxiwona.fd 2008/07/22 v0.995 font definition file for OMX/iwona (MW)
-) [1
+)
+
+LaTeX Font Warning: Font shape `OT1/iwona/m/sl' undefined
+(Font)              using `OT1/iwona/m/n' instead on input line 104.
+
+[1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./fractions_example.aux) ) 
+(./fractions_example.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2164 strings out of 493089
- 31375 string characters out of 6134841
- 114449 words of memory out of 5000000
- 5662 multiletter control sequences out of 15000+600000
- 21589 words of font info for 28 fonts, out of 8000000 for 9000
+ 2303 strings out of 493089
+ 32945 string characters out of 6134841
+ 113553 words of memory out of 5000000
+ 5797 multiletter control sequences out of 15000+600000
+ 24908 words of font info for 30 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,8n,36p,259b,137s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/
-iwona/sy-iwona.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/mi
--iwona.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/rm-iwona.e
-nc}</usr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonab.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonar.pfb></usr/loc
-al/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonari.pfb>
-Output written on fractions_example.pdf (1 page, 58166 bytes).
+ 35i,14n,47p,259b,257s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/sy-iwona.enc}{/usr/
+local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/mi-iwona.enc}{/usr/local/te
+xlive/2015/texmf-dist/fonts/enc/dvips/iwona/rm-iwona.enc}</usr/local/texlive/20
+15/texmf-dist/fonts/type1/nowacki/iwona/iwonab.pfb></usr/local/texlive/2015/tex
+mf-dist/fonts/type1/nowacki/iwona/iwonar.pfb></usr/local/texlive/2015/texmf-dis
+t/fonts/type1/nowacki/iwona/iwonari.pfb>
+Output written on fractions_example.pdf (1 page, 61831 bytes).
 PDF statistics:
  25 PDF objects out of 1000 (max. 8388607)
  18 compressed objects within 1 object stream

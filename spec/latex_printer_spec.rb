@@ -4,7 +4,7 @@ describe LatexPrinter do
   describe '#fraction_question' do
     it 'can print latex fraction addition question' do
       srand(100)
-      latex_result = LatexPrinter.fraction_question('addition')
+      latex_result = LatexPrinter.fraction_question('add')
       expected_result_hash = {question:"8\\frac{2}{5}+7\\frac{8}{9}",
                               solution:"16\\frac{13}{45}"}
       expect(latex_result).to eq expected_result_hash
@@ -30,5 +30,12 @@ describe LatexPrinter do
       expected_result_hash = {question:"4\\frac{1}{4}\\div4\\frac{4}{5}", solution:"\\frac{85}{96}"}
       expect(latex_result).to eq expected_result_hash
     end
+  end
+
+  describe '#fraction_questionsheet_content' do
+    xit 'can generate a list of fraction questions and print them to latex' do
+
+    end
+
   end
 end

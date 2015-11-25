@@ -28,7 +28,7 @@ class LatexPrinter
   #   result
   # end
 
-  def self.fraction_question(operation='addition',integer_range=10,fraction_range=10)
+  def self.fraction_question(operation='add',integer_range=10,fraction_range=10)
     question = Fraction.question(operation,integer_range,fraction_range)
     question_latex = self._latex_fraction(question[:fraction1]) +
       self._latex_sign(operation) + self._latex_fraction(question[:fraction2])

@@ -228,7 +228,7 @@ describe Fraction do
       include_context 'example addition question'
 
       it 'has operator of addition' do
-        expect(@question[:operator]).to eq 'addition'
+        expect(@question[:operation]).to eq 'add'
       end
 
       it 'generates a fraction for the addition' do
@@ -255,7 +255,7 @@ describe Fraction do
       include_context 'example subtraction question'
 
       it 'has operator of subtraction' do
-        expect(@question[:operator]).to eq 'subtract'
+        expect(@question[:operation]).to eq 'subtract'
       end
 
       it 'generates a fraction for the subtraction' do
@@ -282,7 +282,7 @@ describe Fraction do
       include_context 'example multiplication question'
 
       it 'has operator of multiply' do
-        expect(@question[:operator]).to eq 'multiply'
+        expect(@question[:operation]).to eq 'multiply'
       end
 
       it 'generates a fraction for the multiplication' do
@@ -309,7 +309,7 @@ describe Fraction do
       include_context 'example division question'
 
       it 'has operator of divide' do
-        expect(@question[:operator]).to eq 'divide'
+        expect(@question[:operation]).to eq 'divide'
       end
 
       it 'generates a fraction for the division' do
@@ -326,5 +326,50 @@ describe Fraction do
     end
   end
 
+  describe '#worksheet_questions' do
+    it 'generate fraction addition questions for a worksheet' do
+      srand(100)
+      questions = Fraction.worksheet_questions(2)
+      expected_questions = []
+      question1 = {operation:'add',fraction1:Fraction.new(8,2,5),
+        fraction2:Fraction.new(7,8,9),solution:Fraction.new(16,13,45)}
+      question2 = {operation:'add',fraction1:Fraction.new(0,1,2),
+        fraction2:Fraction.new(5,3,4),solution:Fraction.new(6,1,4)}
+      expected_questions << question1
+      expected_questions << question2
+      expect(questions).to eq expected_questions
+    end
 
+    it 'generate addition and subtraction fraction questions for a worksheet' do
+      srand(200)
+      questions = Fraction.worksheet_questions(3,['add','subtract'])
+      expected_questions = []
+      question1 = {operation:'add',fraction1:Fraction.new(9,1,2),
+        fraction2:Fraction.new(4,5,9),solution:Fraction.new(14,1,18)}
+      question2 = {operation:'subtract',fraction1:Fraction.new(9,3,8),
+        fraction2:Fraction.new(8,2,3),solution:Fraction.new(0,17,24)}
+      question3 = {operation:'subtract',fraction1:Fraction.new(9,1,3),
+        fraction2:Fraction.new(7,1,7),solution:Fraction.new(2,4,21)}
+      expected_questions << question1
+      expected_questions << question2
+      expected_questions << question3
+      expect(questions).to eq expected_questions
+    end
+
+    it 'generate multiplication and division fraction questions for a worksheet' do
+      srand(200)
+      questions = Fraction.worksheet_questions(3,['multiply','divide'],0,8)
+      expected_questions = []
+      question1 = {operation:'multiply',fraction1:Fraction.new(0,1,3),
+        fraction2:Fraction.new(0,1,2),solution:Fraction.new(0,1,6)}
+      question2 = {operation:'divide',fraction1:Fraction.new(0,1,3),
+        fraction2:Fraction.new(0,2,5),solution:Fraction.new(0,5,6)}
+      question3 = {operation:'divide',fraction1:Fraction.new(0,3,5),
+        fraction2:Fraction.new(0,1,4),solution:Fraction.new(2,2,5)}
+      expected_questions << question1
+      expected_questions << question2
+      expected_questions << question3
+      expect(questions).to eq expected_questions
+    end
+  end
 end

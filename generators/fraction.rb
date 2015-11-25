@@ -81,11 +81,21 @@ class Fraction
     Fraction.new(integer,numerator,denominator).simplify
   end
 
-  def self.question(operation='addition',integer_range=10,fraction_range=10)
-    return self._addition(integer_range,fraction_range) if operation == 'addition'
+  def self.question(operation='add',integer_range=10,fraction_range=10)
+    return self._addition(integer_range,fraction_range) if operation == 'add'
     return self._subtraction(integer_range,fraction_range) if operation == 'subtract'
     return self._multiplication(integer_range,fraction_range) if operation == 'multiply'
     return self._division(integer_range,fraction_range) if operation == 'divide'
+  end
+
+  def self.worksheet_questions(number_of_questions=1,operations=['add'],
+      integer_range=10,fraction_range=10)
+    questions = []
+    number_of_questions.times do
+      operation = operations[rand(0..operations.length-1)]
+      questions << self.question(operation,integer_range,fraction_range)
+    end
+    questions
   end
 
   private
@@ -105,7 +115,7 @@ class Fraction
   def self._addition(integer_range,fraction_range)
     fraction1 = self.random(integer_range,fraction_range)
     fraction2 = self.random(integer_range,fraction_range)
-    {operator:'addition',fraction1:fraction1,fraction2:fraction2,
+    {operation:'add',fraction1:fraction1,fraction2:fraction2,
       solution:fraction1.add(fraction2)}
   end
 
@@ -115,21 +125,21 @@ class Fraction
       fraction2 = self.random(integer_range,fraction_range)
       break if fraction2 < fraction1
     end
-    {operator:'subtract',fraction1:fraction1,fraction2:fraction2,
+    {operation:'subtract',fraction1:fraction1,fraction2:fraction2,
       solution:fraction1.subtract(fraction2)}
   end
 
   def self._multiplication(integer_range,fraction_range)
     fraction1 = self.random((integer_range*0.6).to_i,(fraction_range*0.8).to_i)
     fraction2 = self.random((integer_range*0.6).to_i,(fraction_range*0.8).to_i)
-    {operator:'multiply',fraction1:fraction1,fraction2:fraction2,
+    {operation:'multiply',fraction1:fraction1,fraction2:fraction2,
       solution:fraction1.multiply(fraction2)}
   end
 
   def self._division(integer_range,fraction_range)
     fraction1 = self.random((integer_range*0.6).to_i,(fraction_range*0.8).to_i)
     fraction2 = self.random((integer_range*0.6).to_i,(fraction_range*0.8).to_i)
-    {operator:'divide',fraction1:fraction1,fraction2:fraction2,
+    {operation:'divide',fraction1:fraction1,fraction2:fraction2,
       solution:fraction1.divide(fraction2)}
   end
 

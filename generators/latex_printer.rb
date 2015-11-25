@@ -1,6 +1,10 @@
 require './generators/fraction'
 
 class LatexPrinter
+
+  QUESTION_AND_NUMBER_SPACING = 15
+  LINE_SPACING = 2
+  MAX_QUESTIONS_PER_ROW = 4  #used for much later
 # include Questions
 
   # HEADERS = '\documentclass{article}
@@ -27,13 +31,42 @@ class LatexPrinter
   #   result += TEST_QUESTIONS + "\n" + '\end{align*}' + "\n" + '\end{document}'+ "\n"
   #   result
   # end
+  #
+  # def self.fraction_question(operation='add',integer_range=10,fraction_range=10)
+  #   question = Fraction.question(operation,integer_range,fraction_range)
+  #   question_latex = self._latex_fraction(question[:fraction1]) +
+  #     self._latex_sign(operation) + self._latex_fraction(question[:fraction2])
+  #   solution_latex = self._latex_fraction(question[:solution])
+  #   {question:question_latex,solution:solution_latex}
+  # end
 
-  def self.fraction_question(operation='add',integer_range=10,fraction_range=10)
-    question = Fraction.question(operation,integer_range,fraction_range)
-    question_latex = self._latex_fraction(question[:fraction1]) +
-      self._latex_sign(operation) + self._latex_fraction(question[:fraction2])
-    solution_latex = self._latex_fraction(question[:solution])
-    {question:question_latex,solution:solution_latex}
+
+    def self.fraction_question(question)
+      question_latex = self._latex_fraction(question[:fraction1]) +
+        self._latex_sign(operation) + self._latex_fraction(question[:fraction2])
+      solution_latex = self._latex_fraction(question[:solution])
+      {question:question_latex,solution:solution_latex}
+    end
+
+  def self.fraction_sheet(questions_per_row=2,number_of_rows=5,operation=['add'],integer_range=10,fraction_range=10)
+    number_of_questions = questions_per_row * number_of_rows
+    questions = Fraction.worksheet_questions(number_of_questions,operation,integer_range,fraction_range)
+    question_number = 1
+    latex_questions = ''
+
+    number_of_rows.times do
+
+      questions_per_row.times do
+        latex_questions += '&' if question_number%questions_per_row != 1
+        latex_questions += "#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING}pt}&"
+        latex_questions += questions[question_number-1]
+
+
+      end
+
+    end
+
+    return questions
   end
 
   private
@@ -103,3 +136,4 @@ b = 6
 d = LatexPrinter.fraction_question
 # puts d
 # puts d
+puts LatexPrinter.fraction_sheet

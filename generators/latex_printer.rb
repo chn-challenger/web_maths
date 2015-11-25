@@ -4,69 +4,53 @@ class LatexPrinter
 
   QUESTION_AND_NUMBER_SPACING = 15
   LINE_SPACING = 2
+  TITLE_CONTENT_SPACE = 10
   MAX_QUESTIONS_PER_ROW = 4  #used for much later
-# include Questions
 
-  # HEADERS = '\documentclass{article}
-  #           \usepackage[math]{iwona}
-  #           \usepackage[fleqn]{amsmath}
-  #           \usepackage{scrextend}
-  #           \changefontsizes[20pt]{18pt}
-  #           \usepackage[margin=0.7in]{geometry}
-  #           \pagenumbering{gobble}
-  #           \usepackage{setspace}
-  #           \renewcommand{\baselinestretch}{1.5}
-  #           \begin{document}'
-  #
-  # TEST_QUESTIONS = '1.\hspace{10pt}&2\frac{3}{4} + 4 \frac{2}{7} \hspace{90pt} &12.\hspace{10pt} &4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-  # 3.\hspace{10pt}&2\frac{3}{4}  + 2314 \frac{12}{17} &11.\hspace{10pt}&4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-  # 1.\hspace{10pt}&2\frac{3}{4} + 4 \frac{2}{7} \hspace{90pt} &12.\hspace{10pt} &4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-  # 3.\hspace{10pt}&2\frac{3}{4}  + 2314 \frac{12}{17} &11.\hspace{10pt}&4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-  # 1.\hspace{10pt}&2\frac{3}{4} + 4 \frac{2}{7} \hspace{90pt} &12.\hspace{10pt} &4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-  # 3.\hspace{10pt}&2\frac{3}{4}  + 2314 \frac{12}{17} &11.\hspace{10pt}&4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-  # 3.\hspace{10pt}&2\frac{3}{4}  + 4 \frac{2}{7}  &11.&4\frac{2}{5} + 3\frac{5}{9}'
-  #
-  # def latex_worksheet(title='Worksheet 1',questions_per_row=2,number_of_rows=5,question_type=['addition'])
-  #   result = HEADERS + "\n" + '\section*{\centerline{Fraction ' + title + '}}'+ "\n\n" + '\vspace{10 mm}' + "\n" + '\begin{align*}' + "\n"
-  #   result += TEST_QUESTIONS + "\n" + '\end{align*}' + "\n" + '\end{document}'+ "\n"
-  #   result
-  # end
-  #
-  # def self.fraction_question(operation='add',integer_range=10,fraction_range=10)
-  #   question = Fraction.question(operation,integer_range,fraction_range)
-  #   question_latex = self._latex_fraction(question[:fraction1]) +
-  #     self._latex_sign(operation) + self._latex_fraction(question[:fraction2])
-  #   solution_latex = self._latex_fraction(question[:solution])
-  #   {question:question_latex,solution:solution_latex}
-  # end
+  HEADERS = "\\documentclass{article}\n"\
+    "\\usepackage[math]{iwona}\n"\
+    "\\usepackage[fleqn]{amsmath}\n"\
+    "\\usepackage{scrextend}\n"\
+    "\\changefontsizes[20pt]{17pt}\n"\
+    "\\usepackage[margin=0.7in]{geometry}\n"\
+    "\\pagenumbering{gobble}\n"\
+    "\\begin{document}\n"
 
+  def self.fraction_question(question)
+    question_latex = self._latex_fraction(question[:fraction1]) +
+      self._latex_sign(question[:operation]) + self._latex_fraction(question[:fraction2])
+    solution_latex = self._latex_fraction(question[:solution])
+    {question:question_latex,solution:solution_latex}
+  end
 
-    def self.fraction_question(question)
-      question_latex = self._latex_fraction(question[:fraction1]) +
-        self._latex_sign(operation) + self._latex_fraction(question[:fraction2])
-      solution_latex = self._latex_fraction(question[:solution])
-      {question:question_latex,solution:solution_latex}
-    end
-
-  def self.fraction_sheet(questions_per_row=2,number_of_rows=5,operation=['add'],integer_range=10,fraction_range=10)
-    number_of_questions = questions_per_row * number_of_rows
-    questions = Fraction.worksheet_questions(number_of_questions,operation,integer_range,fraction_range)
+  def self.fraction_sheet_content(questions_per_row=2,number_of_rows=5,operation=['add'],
+    integer_range=10,fraction_range=10)
+    questions = Fraction.worksheet_questions(questions_per_row * number_of_rows,
+      operation,integer_range,fraction_range)
     question_number = 1
     latex_questions = ''
-
-    number_of_rows.times do
-
+    for i in 1..number_of_rows
       questions_per_row.times do
         latex_questions += '&' if question_number%questions_per_row != 1
-        latex_questions += "#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING}pt}&"
-        latex_questions += questions[question_number-1]
-
-
+        latex_questions += "&#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING}pt}"
+        latex_questions += self.fraction_question(questions[question_number-1])[:question]
+        question_number += 1
       end
-
+      latex_questions += '\\\[2em]' if i != number_of_rows
+      latex_questions += "\n"
     end
+    {questions: latex_questions}
+  end
 
-    return questions
+  def self.fraction_sheet(title='',questions_per_row=2,number_of_rows=5,operation=['add','subtract','multiply','divide'],
+    integer_range=10,fraction_range=10)
+
+    latex_questions_sheet = HEADERS
+    latex_questions_sheet += "\\section*{\\centerline{Fraction Worksheet #{title}}}\n\\vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
+    content = self.fraction_sheet_content(questions_per_row,number_of_rows,operation,integer_range,fraction_range)[:questions]
+    latex_questions_sheet += content + "\\end{align*}\n\\end{document}"
+
+    {fraction_sheet:latex_questions_sheet}
   end
 
   private
@@ -88,52 +72,5 @@ class LatexPrinter
 
 end
 
-#
-# def test_print()
-#   '\documentclass{article}
-# \usepackage[math]{iwona}
-# \usepackage[fleqn]{amsmath}
-# \usepackage{scrextend}
-# \changefontsizes[20pt]{18pt}
-# \usepackage[margin=0.7in]{geometry}
-# \pagenumbering{gobble}
-# \usepackage{setspace}
-# \renewcommand{\baselinestretch}{1.5}
-# \begin{document}
-#
-# \section*{\centerline{Fraction Worksheet 2}}
-#
-# \vspace{10 mm}
-#
-#
-# \begin{align*}
-# 1.\hspace{10pt}&2\frac{3}{4} + 4 \frac{2}{7} \hspace{90pt} &12.\hspace{10pt} &4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-# 3.\hspace{10pt}&2\frac{3}{4}  + 2314 \frac{12}{17} &11.\hspace{10pt}&4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-# 1.\hspace{10pt}&2\frac{3}{4} + 4 \frac{2}{7} \hspace{90pt} &12.\hspace{10pt} &4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-# 3.\hspace{10pt}&2\frac{3}{4}  + 2314 \frac{12}{17} &11.\hspace{10pt}&4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-# 1.\hspace{10pt}&2\frac{3}{4} + 4 \frac{2}{7} \hspace{90pt} &12.\hspace{10pt} &4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-# 3.\hspace{10pt}&2\frac{3}{4}  + 2314 \frac{12}{17} &11.\hspace{10pt}&4\frac{2}{5} + 3\frac{5}{9}\\\[2em]
-# 3.\hspace{10pt}&2\frac{3}{4}  + 4 \frac{2}{7}  &11.&4\frac{2}{5} + 3\frac{5}{9}
-# \end{align*}
-#
-# \end{document}
-# '
-# end
-#
-# # puts test_print
-# filename = 'testfile3.tex'
-# printer = LatexPrinter.new.latex_worksheet
-# file_content = printer
-#
-# File.open filename, 'w' do |f|
-#   f.write file_content
-# end
-
-a = 5
-b = 6
-# puts "\\frac{#{a}}{#{b}}"
-# c = LatexPrinter.new
-d = LatexPrinter.fraction_question
-# puts d
-# puts d
-puts LatexPrinter.fraction_sheet
+test = LatexPrinter.fraction_sheet('Test',3,6)[:fraction_sheet]
+puts test

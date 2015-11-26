@@ -2,14 +2,21 @@ require 'fileutils'
 require './generators/latex_printer'
 
 sheet_title = 'Worksheet 1'
-student = 'Jack Lu'
+student = 'Jayden Lu'
+
+questions_per_row = 3
+number_of_rows = 7
+types = ['multiply','divide']
+integer_difficulty_range = 3
+fraction_difficulty_range = 10
 keep_tex_source = false
 
 
 #generate sheet and setup filenames
 file_prefix = 'fraction-'
 date = Time.new.year.to_s + '-' + Time.new.month.to_s + '-' + Time.new.day.to_s
-sheet = LatexPrinter.fraction_sheet(sheet_title,student,2,8,['add','subtract','multiply','divide'],4)
+#generate sheet
+sheet = LatexPrinter.fraction_sheet(sheet_title,student,questions_per_row,number_of_rows,types,integer_difficulty_range)
 directory_name = file_prefix + sheet_title.downcase.gsub(" ",'') + '-'+ student.downcase.gsub(" ",'')+'-' + date
 questions_sheet_name = directory_name + '-' + 'q.tex'
 answers_sheet_name = directory_name +  '-' + 'a.tex'

@@ -15,7 +15,7 @@ class LinearEquation
     @solution = solution
   end
 
-  def self.generate_one_sided(number_of_steps=1,solution_range=20,options={})
+  def self.generate_one_sided(number_of_steps=1,solution_range=10,options={})
 
     solution = rand(2..solution_range)
 
@@ -32,11 +32,16 @@ class LinearEquation
     current_step_orientation = orientations.sample
     current_step_range = options[current_step_operation] ? options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
     #set current_step_value - dealing with cases of left subtraction and division
+    current_step_value = nil
     if current_step_operation == :subtract && current_step_orientation == :left
       current_step_value = current_value + rand(2..current_step_range)
     end
     if current_step_operation == :divide && current_step_orientation == :left
       current_step_value = current_value * rand(2..current_step_range)
+    end
+    if current_step_operation == :divide && current_step_orientation == :right
+      choices = self.divisors_of(current_value, current_step_range)
+      current_step_value = choices.sample
     end
     current_step_value ||= rand(2..current_step_range)
     #make the step
@@ -45,59 +50,48 @@ class LinearEquation
     current_value = evaluate(current_value,[current_step])
     #update both sides
     left_side << current_step
-    right_side = current_value
     #
     while step_number < number_of_steps
+      #operation must altenate from previous
       if multiply_divide.include?(left_side.last.operation)
         current_step_operation = add_subtract.sample
       else
         current_step_operation = multiply_divide.sample
       end
-
       current_step_orientation = orientations.sample
-
+      current_step_range = options[current_step_operation] ? options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
+      #set current_step_value - dealing with cases of left subtraction and division
+      current_step_value = nil
+      if current_step_operation == :subtract && current_step_orientation == :left
+        current_step_value = current_value + rand(2..current_step_range)
+      end
+      if current_step_operation == :divide && current_step_orientation == :left
+        current_step_value = current_value * rand(2..current_step_range)
+      end
+      if current_step_operation == :divide && current_step_orientation == :right
+        choices = self.divisors_of(current_value, current_step_range)
+        current_step_value = choices.sample
+      end
+      current_step_value ||= rand(2..current_step_range)
+      #make the step
+      current_step = EquationStep.new(current_step_operation,current_step_value,current_step_orientation)
+      #find the current_value after this step
+      current_value = evaluate(current_value,[current_step])
+      #update both sides
+      left_side << current_step
+      #update step_number
+      step_number += 1
     end
-    # while true
-    #   if multiply_divide.include?(left_side.last.operation)
-    #     current_step_operation = add_subtract.sample
-    #   else
-    #     current_step_operation = multiply_divide.sample
-    #   end
-    #
-    #   current_step_orientation = orientations.sample
-    #
-    #   range = options[current_step_operation] ? options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
-    #   current_step_value = 2
-    #
-    #   left_side << EquationStep.new(current_step_operation,current_step_value,current_step_orientation)
-    #
-    #   current_left_side_value = self.evaluate(starting_value,steps)
-    #
-    #   current_step += 1
-    #   break if current_step > steps
-    # end
+
+    right_side = current_value
     return LinearEquation.new(left_side,right_side,solution)
   end
 
-  def self.determine_range(operation,orientation,options)
-    if operation == :multiply
-      if options[:multiplication_range]
-        return options[:multiplication_range]
-      else
-        return 9 #default multiply range
-      end
-    end
+  private
 
-    if operation == :divide
-      if options[:division_range]
-        return options[:division_range]
-      else
-        return 9 #default right division range
-      end
-    end
+  def self.divisors_of(number,max)
+    range = number < 0 ? number * -1 : number
+    (1..range).select { |n| range % n == 0 && n != 1 && n <= max}
   end
 
 end
-
-# p LinearEquation.generate_one_sided()
-# p [1,2,5,3,21].last

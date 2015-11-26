@@ -12,4 +12,8 @@ class EquationStep
     end
   end
 
+  def ==(equation_step)
+    (operation == equation_step.operation) && (value == equation_step.value) && (orientation == equation_step.orientation)
+  end
+
 end

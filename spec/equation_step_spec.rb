@@ -5,7 +5,7 @@ describe EquationStep do
     context 'addition step' do
       shared_context 'addition step' do
         before(:all) do
-          @step = EquationStep.new(:add,5)
+          @step = EquationStep.new(:add,5,:right)
         end
       end
 
@@ -27,7 +27,7 @@ describe EquationStep do
     context 'multiplication step' do
       shared_context 'multiplication step' do
         before(:all) do
-          @step = EquationStep.new(:multiply,7,:right)
+          @step = EquationStep.new(:multiply,7,:left)
         end
       end
 

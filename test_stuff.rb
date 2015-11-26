@@ -38,7 +38,7 @@
 # Fraction.new(0,result_numerator,result_denominator).simplify
 
 
-# 
+#
 # filename = 'testfile.txt'
 # file_content = 'totally new\\\ stuff'
 # file_content += '\\\hihihi'
@@ -137,4 +137,249 @@
 #     end
 #   end
 #
+# end
+
+
+
+
+private
+
+def self._current_step_value(current_step_operation,current_step_range,current_step_orientation,current_value)
+  if current_step_operation == :subtract && current_step_orientation == :left
+    current_step_value = current_value + rand(2..current_step_range)
+  end
+  if current_step_operation == :subtract && current_step_orientation == :right
+    current_step_range = [current_value,current_step_range].min - 1
+  end
+  if current_step_operation == :divide && current_step_orientation == :left
+    current_step_value = current_value * rand(2..current_step_range)
+  end
+  if current_step_operation == :divide && current_step_orientation == :right
+    choices = self._divisors_of(current_value, current_step_range)
+    if choices.count == 0
+      current_step_orientation = :left
+      current_step_value = current_value * rand(2..current_step_range)
+    else
+      current_step_value = choices.sample
+    end
+  end
+  current_step_value ||= rand(2..current_step_range)
+  return current_step_value
+end
+
+def self._next_step(left_side,current_value,options)
+  current_step_operation = self._current_step_operation(left_side)
+  current_step_orientation = ORIENTATIONS.sample
+  current_step_range = options[current_step_operation] ?
+    options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
+  current_step_value = self._current_step_value(current_step_operation,current_step_range,current_step_orientation,current_value)
+  # if current_step_operation == :subtract && current_step_orientation == :left
+  #   current_step_value = current_value + rand(2..current_step_range)
+  # end
+  # if current_step_operation == :subtract && current_step_orientation == :right
+  #   current_step_range = [current_value,current_step_range].min - 1
+  # end
+  # if current_step_operation == :divide && current_step_orientation == :left
+  #   current_step_value = current_value * rand(2..current_step_range)
+  # end
+  # if current_step_operation == :divide && current_step_orientation == :right
+  #   choices = self._divisors_of(current_value, current_step_range)
+  #   if choices.count == 0
+  #     current_step_orientation = :left
+  #     current_step_value = current_value * rand(2..current_step_range)
+  #   else
+  #     current_step_value = choices.sample
+  #   end
+  # end
+  # current_step_value ||= rand(2..current_step_range)
+
+  EquationStep.new(current_step_operation,current_step_value,current_step_orientation)
+end
+
+def self._current_step_operation(left_side)
+  if left_side.count > 0
+    if MULTIPLY_DIVIDE.include?(left_side.last.operation)
+      current_step_operation = ADD_SUBTRACT.sample
+    else
+      current_step_operation = MULTIPLY_DIVIDE.sample
+    end
+  else
+    current_step_operation = [MULTIPLY_DIVIDE,ADD_SUBTRACT].sample.sample
+  end
+end
+
+def self._divisors_of(number,max)
+  range = number < 0 ? number * -1 : number
+  (1..range).select { |n| range % n == 0 && n != 1 && n <= max}
+end
+
+end
+
+
+
+# def self._next_step(left_side,current_value,options)
+#   multiply_divide = [:multiply,:divide]
+#   add_subtract = [:add,:subtract]
+#   orientations = [:left,:right]
+#
+#   if left_side.count > 0
+#     if multiply_divide.include?(left_side.last.operation)
+#       current_step_operation = add_subtract.sample
+#     else
+#       current_step_operation = multiply_divide.sample
+#     end
+#   else
+#     current_step_operation = [multiply_divide,add_subtract].sample.sample
+#   end
+#
+#   current_step_orientation = orientations.sample
+#
+#   current_step_range = options[current_step_operation] ? options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
+#
+#   if current_step_operation == :subtract && current_step_orientation == :left
+#     current_step_value = current_value + rand(2..current_step_range)
+#   end
+#   if current_step_operation == :subtract && current_step_orientation == :right
+#     current_step_range = [current_value,current_step_range].min - 1
+#   end
+#   if current_step_operation == :divide && current_step_orientation == :left
+#     current_step_value = current_value * rand(2..current_step_range)
+#   end
+#   if current_step_operation == :divide && current_step_orientation == :right
+#     choices = self._divisors_of(current_value, current_step_range)
+#     if choices.count == 0
+#       current_step_orientation = :left
+#       current_step_value = current_value * rand(2..current_step_range)
+#     else
+#       current_step_value = choices.sample
+#     end
+#   end
+#   current_step_value ||= rand(2..current_step_range)
+#
+#   EquationStep.new(current_step_operation,current_step_value,current_step_orientation)
+# end
+
+
+
+  private
+
+  def self._current_step_value(current_step_operation,current_step_range,current_step_orientation,current_value)
+    if current_step_operation == :subtract && current_step_orientation == :left
+      current_step_value = current_value + rand(2..current_step_range)
+    end
+    if current_step_operation == :subtract && current_step_orientation == :right
+      current_step_range = [current_value,current_step_range].min - 1
+    end
+    if current_step_operation == :divide && current_step_orientation == :left
+      current_step_value = current_value * rand(2..current_step_range)
+    end
+    if current_step_operation == :divide && current_step_orientation == :right
+      choices = self._divisors_of(current_value, current_step_range)
+      if choices.count == 0
+        current_step_orientation = :left
+        current_step_value = current_value * rand(2..current_step_range)
+      else
+        current_step_value = choices.sample
+      end
+    end
+    current_step_value ||= rand(2..current_step_range)
+    return current_step_value
+  end
+
+  def self._next_step(left_side,current_value,options)
+    next_step = EquationStep.new()
+    current_step_operation = self._current_step_operation(left_side)
+    next_step.operation = current_step_operation
+    current_step_orientation = ORIENTATIONS.sample
+    next_step.orientation = current_step_orientation
+    current_step_range = options[current_step_operation] ?
+      options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
+    current_step_value = self._current_step_value(current_step_operation,current_step_range,current_step_orientation,current_value)
+    next_step.value = current_step_value
+    # if current_step_operation == :subtract && current_step_orientation == :left
+    #   current_step_value = current_value + rand(2..current_step_range)
+    # end
+    # if current_step_operation == :subtract && current_step_orientation == :right
+    #   current_step_range = [current_value,current_step_range].min - 1
+    # end
+    # if current_step_operation == :divide && current_step_orientation == :left
+    #   current_step_value = current_value * rand(2..current_step_range)
+    # end
+    # if current_step_operation == :divide && current_step_orientation == :right
+    #   choices = self._divisors_of(current_value, current_step_range)
+    #   if choices.count == 0
+    #     current_step_orientation = :left
+    #     current_step_value = current_value * rand(2..current_step_range)
+    #   else
+    #     current_step_value = choices.sample
+    #   end
+    # end
+    # current_step_value ||= rand(2..current_step_range)
+
+
+    return next_step
+    # EquationStep.new(current_step_operation,current_step_value,current_step_orientation)
+  end
+
+  def self._current_step_operation(left_side)
+    if left_side.count > 0
+      if MULTIPLY_DIVIDE.include?(left_side.last.operation)
+        current_step_operation = ADD_SUBTRACT.sample
+      else
+        current_step_operation = MULTIPLY_DIVIDE.sample
+      end
+    else
+      current_step_operation = [MULTIPLY_DIVIDE,ADD_SUBTRACT].sample.sample
+    end
+  end
+
+  def self._divisors_of(number,max)
+    range = number < 0 ? number * -1 : number
+    (1..range).select { |n| range % n == 0 && n != 1 && n <= max}
+  end
+
+end
+
+
+
+# def self._next_step(left_side,current_value,options)
+#   multiply_divide = [:multiply,:divide]
+#   add_subtract = [:add,:subtract]
+#   orientations = [:left,:right]
+#
+#   if left_side.count > 0
+#     if multiply_divide.include?(left_side.last.operation)
+#       current_step_operation = add_subtract.sample
+#     else
+#       current_step_operation = multiply_divide.sample
+#     end
+#   else
+#     current_step_operation = [multiply_divide,add_subtract].sample.sample
+#   end
+#
+#   current_step_orientation = orientations.sample
+#
+#   current_step_range = options[current_step_operation] ? options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
+#
+#   if current_step_operation == :subtract && current_step_orientation == :left
+#     current_step_value = current_value + rand(2..current_step_range)
+#   end
+#   if current_step_operation == :subtract && current_step_orientation == :right
+#     current_step_range = [current_value,current_step_range].min - 1
+#   end
+#   if current_step_operation == :divide && current_step_orientation == :left
+#     current_step_value = current_value * rand(2..current_step_range)
+#   end
+#   if current_step_operation == :divide && current_step_orientation == :right
+#     choices = self._divisors_of(current_value, current_step_range)
+#     if choices.count == 0
+#       current_step_orientation = :left
+#       current_step_value = current_value * rand(2..current_step_range)
+#     else
+#       current_step_value = choices.sample
+#     end
+#   end
+#   current_step_value ||= rand(2..current_step_range)
+#
+#   EquationStep.new(current_step_operation,current_step_value,current_step_orientation)
 # end

@@ -6,6 +6,9 @@ include Evaluate
 class LinearEquation
 
   DEFAULT_RANGE = {add:50,subtract:50,multiply:9,divide:9}
+  MULTIPLY_DIVIDE = [:multiply,:divide]
+  ADD_SUBTRACT = [:add,:subtract]
+  ORIENTATIONS = [:left,:right]
 
   attr_reader :left_side, :right_side, :solution
 
@@ -20,47 +23,68 @@ class LinearEquation
     left_side = []
     current_value = solution
     number_of_steps.times do
-        current_step = self._next_step(left_side,current_value,options)
-        current_value = evaluate(current_value,[current_step])
-        left_side << current_step
+        next_step = self._next_step(left_side,current_value,options)
+        current_value = evaluate(current_value,[next_step])
+        left_side << next_step
     end
     LinearEquation.new(left_side,current_value,solution)
+  end
+
+  def self.generate_one_sided_questions(number_of_questions=12,number_of_steps=1,solution_range=10,options={})
+    questions = []
+    number_of_questions.times do
+      questions << self.generate_one_sided(number_of_steps,solution_range,options)
+    end
+    questions
+  end
+
+  def ==(linear_equation)
+    left_side == linear_equation.left_side &&
+    right_side == linear_equation.right_side &&
+    solution == linear_equation.solution
   end
 
   private
 
   def self._next_step(left_side,current_value,options)
-    multiply_divide = [:multiply,:divide]
-    add_subtract = [:add,:subtract]
-    orientations = [:left,:right]
+    next_step = EquationStep.new()
+    next_step.operation = self._current_step_operation(left_side)
+    next_step.orientation = self._current_step_orientation
+    self._set_next_step_value(current_value,next_step,options)
+    next_step.normalize
+  end
 
-    if left_side.count > 0
-      if multiply_divide.include?(left_side.last.operation)
-        current_step_operation = add_subtract.sample
-      else
-        current_step_operation = multiply_divide.sample
-      end
-    else
-      current_step_operation = [multiply_divide,add_subtract].sample.sample
+  def self._current_step_operation(left_side)
+    return [MULTIPLY_DIVIDE,ADD_SUBTRACT].sample.sample if left_side.count == 0
+    MULTIPLY_DIVIDE.include?(left_side.last.operation) ? ADD_SUBTRACT.sample : MULTIPLY_DIVIDE.sample
+  end
+
+  def self._current_step_orientation
+    ORIENTATIONS.sample
+  end
+
+  def self._set_next_step_value(current_value,next_step,options)
+    current_step_range = options[next_step.operation] ?
+      options[next_step.operation] : DEFAULT_RANGE[next_step.operation]
+    if next_step.operation == :subtract && next_step.orientation == :left
+      next_step.value = current_value + rand(2..current_step_range)
     end
-
-    current_step_orientation = orientations.sample
-
-    current_step_range = options[current_step_operation] ? options[current_step_operation] : DEFAULT_RANGE[current_step_operation]
-
-    if current_step_operation == :subtract && current_step_orientation == :left
-      current_step_value = current_value + rand(2..current_step_range)
+    if next_step.operation == :subtract && next_step.orientation == :right
+      current_step_range = [current_value,current_step_range].min - 1
     end
-    if current_step_operation == :divide && current_step_orientation == :left
-      current_step_value = current_value * rand(2..current_step_range)
+    if next_step.operation == :divide && next_step.orientation == :left
+      next_step.value = current_value * rand(2..current_step_range)
     end
-    if current_step_operation == :divide && current_step_orientation == :right
+    if next_step.operation == :divide && next_step.orientation == :right
       choices = self._divisors_of(current_value, current_step_range)
-      current_step_value = choices.sample
+      if choices.count == 0
+        next_step.orientation = :left
+        next_step.value = current_value * rand(2..current_step_range)
+      else
+        next_step.value = choices.sample
+      end
     end
-    current_step_value ||= rand(2..current_step_range)
-
-    EquationStep.new(current_step_operation,current_step_value,current_step_orientation)
+    next_step.value ||= rand(2..current_step_range)
   end
 
   def self._divisors_of(number,max)

@@ -1,19 +1,20 @@
 class EquationStep
 
-  attr_reader :operation, :value, :orientation
+  attr_accessor :operation, :value, :orientation
 
-  def initialize(operation,value,orientation=:right)
+  def initialize(operation=nil,value=nil,orientation=nil)
     @operation = operation
     @value = value
-    if operation == :multiply
-      @orientation = :left
-    else
-      @orientation = orientation
-    end
+    @orientation = orientation
   end
 
   def ==(equation_step)
     (operation == equation_step.operation) && (value == equation_step.value) && (orientation == equation_step.orientation)
+  end
+
+  def normalize
+    @orientation = :left if operation == :multiply
+    return self
   end
 
 end

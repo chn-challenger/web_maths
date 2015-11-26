@@ -152,7 +152,116 @@ describe LatexPrinter do
       "c{3}{7}\n\\end{align*}\n\\end{document}"
       expect(@sheet[:solutions_sheet]).to eq expected_solutions
     end
+  end
 
+  describe '#one_sided_linear_equation_question_next_step' do
+    it 'modify the current latex source with step 1 left addition' do
+      current_latex = 'x'
+      next_step = EquationStep.new(:add,5,:left)
+      step_number = 1
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5+x'
+    end
+
+    it 'modify the current latex source with step 2 left addition' do
+      current_latex = 'some_string'
+      next_step = EquationStep.new(:add,5,:left)
+      step_number = 2
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5+\left(some_string\right)'
+    end
+
+    it 'modify the current latex source with step of right addition' do
+      current_latex = 'some_string'
+      next_step = EquationStep.new(:add,5,:right)
+      step_number = rand(1..10)
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq 'some_string+5'
+    end
+
+    it 'modify the current latex source with step 1 left subtraction' do
+      current_latex = 'x'
+      next_step = EquationStep.new(:subtract,5,:left)
+      step_number = 1
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5-x'
+    end
+
+    it 'modify the current latex source with step 2 left subtraction' do
+      current_latex = 'some_string'
+      next_step = EquationStep.new(:subtract,5,:left)
+      step_number = 2
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5-\left(some_string\right)'
+    end
+
+    it 'modify the current latex source with step of right subtraction' do
+      current_latex = 'some_string'
+      next_step = EquationStep.new(:subtract,5,:right)
+      step_number = rand(1..10)
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq 'some_string-5'
+    end
+
+    it 'modify the current latex source with step 1 left multiplication' do
+      current_latex = 'x'
+      next_step = EquationStep.new(:multiply,5,:left)
+      step_number = 1
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5x'
+    end
+
+    it 'modify the current latex source with step 1 right multiplication' do
+      current_latex = 'x'
+      next_step = EquationStep.new(:multiply,5,:right)
+      step_number = 1
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5x'
+    end
+
+    it 'modify the current latex source with step 2 left multiplication' do
+      current_latex = 'x'
+      next_step = EquationStep.new(:multiply,5,:left)
+      step_number = 2
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5\left(x\right)'
+    end
+
+    it 'modify the current latex source with step 2 right multiplication' do
+      current_latex = 'x'
+      next_step = EquationStep.new(:multiply,5,:right)
+      step_number = 2
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5\left(x\right)'
+    end
+
+    it 'modify the current latex source with step of left division' do
+      current_latex = 'some_string'
+      next_step = EquationStep.new(:divide,5,:left)
+      step_number = rand(1..10)
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '\frac{5}{some_string}'
+    end
+
+    it 'modify the current latex source with step of right division' do
+      current_latex = 'some_string'
+      next_step = EquationStep.new(:divide,5,:right)
+      step_number = rand(1..10)
+      new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '\frac{some_string}{5}'
+    end
   end
 
 end

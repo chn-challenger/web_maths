@@ -1,5 +1,6 @@
 require './generators/fraction'
 require './generators/serial'
+require './generators/linear_equation'
 include SerialNumber
 
 class LatexPrinter
@@ -25,6 +26,60 @@ class LatexPrinter
       self._latex_sign(question[:operation]) + self._latex_fraction(question[:fraction2])
     solution_latex = self._latex_fraction(question[:solution])
     {question:question_latex,solution:solution_latex}
+  end
+
+  # @left_side = left_side
+  # @right_side = right_side
+  # @solution = solution
+
+  def self.one_sided_linear_equation_question(question)
+
+  end
+
+  def self.one_sided_linear_equation_question_next_step(current_latex,step,step_number)
+    modified_latex = current_latex
+
+    if step.operation == :add && step.orientation == :left
+      if step_number == 1
+        modified_latex = step.value.to_s + '+' + modified_latex
+      else
+        modified_latex = step.value.to_s + '+\left(' + modified_latex + '\right)'
+      end
+    end
+
+    if step.operation == :add && step.orientation == :right
+      modified_latex = modified_latex +  '+' + step.value.to_s
+    end
+
+    if step.operation == :subtract && step.orientation == :left
+      if step_number == 1
+        modified_latex = step.value.to_s + '-' + modified_latex
+      else
+        modified_latex = step.value.to_s + '-\left(' + modified_latex + '\right)'
+      end
+    end
+
+    if step.operation == :subtract && step.orientation == :right
+      modified_latex = modified_latex +  '-' + step.value.to_s
+    end
+
+    if step.operation == :multiply
+      if step_number == 1
+        modified_latex = step.value.to_s + modified_latex
+      else
+        modified_latex = step.value.to_s + '\left(' + modified_latex + '\right)'
+      end
+    end
+
+    if step.operation == :divide && step.orientation == :left
+      modified_latex = '\frac{' + step.value.to_s + '}{' + modified_latex +  '}'
+    end
+
+    if step.operation == :divide && step.orientation == :right
+      modified_latex = '\frac{' + modified_latex + '}{' + step.value.to_s +  '}'
+    end
+
+    return modified_latex
   end
 
   def self.fraction_sheet_content(questions_per_row=2,number_of_rows=5,operation=['add'],

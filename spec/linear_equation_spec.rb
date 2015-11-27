@@ -265,11 +265,11 @@ describe LinearEquation do
       it 'has left side of five equation step' do
         expect(@question.left_side).to eq [EquationStep.new(:subtract,47,:left),
           EquationStep.new(:divide,4,:right),EquationStep.new(:subtract,54,:left),
-          EquationStep.new(:multiply,4,:left),EquationStep.new(:add,5,:left)]
+          EquationStep.new(:multiply,8,:left),EquationStep.new(:add,5,:left)]
       end
 
       it 'has rigt side of an integer' do
-        expect(@question.right_side).to eq 177
+        expect(@question.right_side).to eq 349
       end
 
       it 'has an integer solution' do

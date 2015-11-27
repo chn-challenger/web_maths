@@ -17,4 +17,12 @@ class EquationStep
     return self
   end
 
+  def reverse
+    return self.dup if orientation == :left && (operation == :subtract || operation == :divide)
+    return EquationStep.new(:subtract,value,:right) if operation == :add
+    return EquationStep.new(:divide,value,:right) if operation == :multiply
+    return EquationStep.new(:add,value,:right) if operation == :subtract && orientation == :right
+    return EquationStep.new(:multiply,value,:right) if operation == :divide && orientation == :right
+  end
+
 end

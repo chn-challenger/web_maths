@@ -21,8 +21,6 @@ class LatexPrinter
     "\\renewcommand{\\headrulewidth}{0pt}\n"\
     "\\pagestyle{fancy}\n"
 
-
-
   def self.one_sided_linear_equation_question(question,unknow_variable)
     step_number = 1
     question.left_side.inject(unknow_variable) do |result, step|
@@ -125,6 +123,22 @@ class LatexPrinter
       latex_solutions += "\n"
     end
     {questions: latex_questions,solutions: latex_solutions}
+  end
+
+  def self.one_sided_linear_equation_sheet(title='',student='',questions=nil,questions_per_row=2,number_of_rows=5,topic_prefix='LEN',options={})
+
+    content = self.one_sided_linear_equation_sheet_content(questions,questions_per_row,number_of_rows,options)
+    serial = generate_serial
+
+    latex_questions_sheet = HEADERS
+    latex_questions_sheet += "\\lfoot{#{topic_prefix}-#{serial}Q\\quad \\textc"\
+      "opyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{student:}\\quad"\
+      " #{student}}\n\\begin{document}\n"
+    latex_questions_sheet += "\\section*{\\centerline{Linear Equations #{title}}}\n\\"\
+      "vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
+    latex_questions_sheet += content + "\\end{align*}\n\\end{document}"
+
+    {questions_sheet:latex_questions_sheet}
   end
 
   def self.fraction_sheet(title='',student='',questions_per_row=2,number_of_rows=5,

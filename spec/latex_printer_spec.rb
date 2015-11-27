@@ -333,4 +333,30 @@ describe LatexPrinter do
     end
   end
 
+  describe '#one_sided_linear_equation_sheet' do
+    it 'creates a worksheet of 10 questions' do
+      srand(2314)
+      questions = LinearEquation.generate_one_sided_questions(10,3)
+      sheet_latex = LatexPrinter.one_sided_linear_equation_sheet('Worksheet 1',
+        'Billy Thomas',questions)[:questions_sheet]
+      expected_sheet_latex = "\\documentclass{article}\n\\usepackage[math]{iwo"\
+        "na}\n\\usepackage[fleqn]{amsmath}\n\\usepackage{scrextend}\n\\changef"\
+        "ontsizes[20pt]{17pt}\n\\usepackage[a4paper, left=0.7in,right=0.7in,to"\
+        "p=1in,bottom=1in]{geometry}\n\\pagenumbering{gobble}\n\\usepackage{fa"\
+        "ncyhdr}\n\\renewcommand{\\headrulewidth}{0pt}\n\\pagestyle{fancy}\n\\"\
+        "lfoot{LEN-WQ571259Q\\quad \\textcopyright\\, Joe Zhou, 2015}\n\\rfoot"\
+        "{\\textit{student:}\\quad Billy Thomas}\n\\begin{document}\n\\section"\
+        "*{\\centerline{Linear Equations Worksheet 1}}\n\\vspace{10 mm}\n\\beg"\
+        "in{align*}\n&1.\\hspace{15pt}6\\left(44+\\frac{x}{3}\\right)=270&&2."\
+        "\\hspace{15pt}\\frac{42+4x}{2}=37\\\\[2em]\n&3.\\hspace{15pt}\\frac{1"\
+        "9-x}{2}-3=3&&4.\\hspace{15pt}\\frac{x+26}{2}+30=45\\\\[2em]\n&5.\\hsp"\
+        "ace{15pt}5\\left(36+\\frac{x}{7}\\right)=185&&6.\\hspace{15pt}\\frac{"\
+        "2}{x-4}+28=30\\\\[2em]\n&7.\\hspace{15pt}9\\left(\\frac{x}{6}+31\\rig"\
+        "ht)=288&&8.\\hspace{15pt}4\\left(5x+30\\right)=180\\\\[2em]\n&9.\\hsp"\
+        "ace{15pt}34-2\\left(x-3\\right)=26&&10.\\hspace{15pt}33+\\frac{164}{4"\
+        "9-x}=37\n\\end{align*}\n\\end{document}"
+      expect(sheet_latex).to eq expected_sheet_latex
+    end
+  end
+
 end

@@ -39,7 +39,7 @@ class LatexPrinter
       if step_number == 1
         modified_latex = step.value.to_s + '+' + modified_latex
       else
-        modified_latex = step.value.to_s + '+\left(' + modified_latex + '\right)'
+        modified_latex = step.value.to_s + '+' + modified_latex
       end
     end
 
@@ -51,7 +51,7 @@ class LatexPrinter
       if step_number == 1
         modified_latex = step.value.to_s + '-' + modified_latex
       else
-        modified_latex = step.value.to_s + '-\left(' + modified_latex + '\right)'
+        modified_latex = step.value.to_s + '-' + modified_latex
       end
     end
 

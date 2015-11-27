@@ -170,7 +170,7 @@ describe LatexPrinter do
       step_number = 2
       new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
         current_latex,next_step,step_number)
-      expect(new_latex).to eq '5+\left(some_string\right)'
+      expect(new_latex).to eq '5+some_string'
     end
 
     it 'modify the current latex source with step of right addition' do
@@ -197,7 +197,7 @@ describe LatexPrinter do
       step_number = 2
       new_latex = LatexPrinter.one_sided_linear_equation_question_next_step(
         current_latex,next_step,step_number)
-      expect(new_latex).to eq '5-\left(some_string\right)'
+      expect(new_latex).to eq '5-some_string'
     end
 
     it 'modify the current latex source with step of right subtraction' do
@@ -289,18 +289,24 @@ describe LatexPrinter do
     it 'creates latex for one one_sided four step question' do
       srand(400)
       question = LinearEquation.generate_one_sided(4)
-      p question
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-      expect(question_latex).to eq "43-\\left(8\\left(\\frac{x+10}{3}\\right)\\right)=3"
+      expect(question_latex).to eq "43-8\\left(\\frac{x+10}{3}\\right)=3"
     end
 
     it 'creates latex for one one_sided five step question' do
       srand(500)
       question = LinearEquation.generate_one_sided(5)
-      p question
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
       expect(question_latex).to eq "4\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=556"
     end
+
+    # it 'creates latex for one one_sided five step question' do
+    #   srand(500)
+    #   question = LinearEquation.generate_one_sided(9)
+    #   question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
+    #   puts question_latex
+    #   expect(question_latex).to eq "4\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=556"
+    # end
   end
 
   # describe '#one_sided_linear_equation_sheet_content' do

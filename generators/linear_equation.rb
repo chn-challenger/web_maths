@@ -55,8 +55,12 @@ class LinearEquation
   end
 
   def self._current_step_operation(left_side)
-    return [MULTIPLY_DIVIDE,ADD_SUBTRACT].sample.sample if left_side.count == 0
-    MULTIPLY_DIVIDE.include?(left_side.last.operation) ? ADD_SUBTRACT.sample : MULTIPLY_DIVIDE.sample
+    multiply_divide = MULTIPLY_DIVIDE.dup
+    left_side.each do |step|
+      multiply_divide = [:multiply] if step.operation == :divide
+    end
+    return [multiply_divide,ADD_SUBTRACT].sample.sample if left_side.count == 0
+    multiply_divide.include?(left_side.last.operation) ? ADD_SUBTRACT.sample : multiply_divide.sample
   end
 
   def self._current_step_orientation

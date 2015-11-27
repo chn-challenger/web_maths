@@ -283,33 +283,35 @@ describe LatexPrinter do
       srand(300)
       question = LinearEquation.generate_one_sided(3)
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-      expect(question_latex).to eq "54-\\left(\\frac{47-x}{4}\\right)=43"
+      expect(question_latex).to eq "8\\left(\\frac{47-x}{4}\\right)=88"
     end
 
     it 'creates latex for one one_sided four step question' do
       srand(400)
       question = LinearEquation.generate_one_sided(4)
+      p question
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-      expect(question_latex).to eq "9\\left(38-\\left(\\frac{x+10}{3}\\right)\\right)=297"
+      expect(question_latex).to eq "43-\\left(8\\left(\\frac{x+10}{3}\\right)\\right)=3"
     end
 
     it 'creates latex for one one_sided five step question' do
       srand(500)
       question = LinearEquation.generate_one_sided(5)
+      p question
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-      expect(question_latex).to eq "183-\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=44"
+      expect(question_latex).to eq "4\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=556"
     end
   end
 
-  describe '#one_sided_linear_equation_sheet_content' do
-    it 'creates latex content for 3 rows fo 2 3-step-questions per row' do
-      srand(200)
-      questions = LinearEquation.generate_one_sided_questions(6,3)
-      p questions
-      questions_latex = LatexPrinter.one_sided_linear_equation_sheet_content(questions,2,3,{variable:'y'})
-      puts questions_latex
-      expect(questions_latex).to eq 'hello'
-    end
-  end
+  # describe '#one_sided_linear_equation_sheet_content' do
+  #   it 'creates latex content for 3 rows fo 2 3-step-questions per row' do
+  #     srand(200)
+  #     questions = LinearEquation.generate_one_sided_questions(12,3)
+  #     p questions
+  #     questions_latex = LatexPrinter.one_sided_linear_equation_sheet_content(questions,2,6,{variable:'y'})
+  #     puts questions_latex
+  #     expect(questions_latex).to eq 'hello'
+  #   end
+  # end
 
 end

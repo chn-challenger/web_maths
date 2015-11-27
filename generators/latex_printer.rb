@@ -78,6 +78,24 @@ class LatexPrinter
     return modified_latex
   end
 
+  def self.one_sided_linear_equation_sheet_content(questions,questions_per_row=2,number_of_rows=5,options={})
+    options[:variable] ||= 'x'
+    question_number = 1
+    content_latex = ''
+
+    for i in 1..number_of_rows
+      questions_per_row.times do
+        content_latex += '&' if question_number%questions_per_row != 1
+        content_latex += "&#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING}pt}"
+        content_latex += self.one_sided_linear_equation_question(questions[question_number-1],options[:variable])
+        question_number += 1
+      end
+      content_latex += '\\\[2em]' if i != number_of_rows
+      content_latex += "\n"
+    end
+      content_latex
+  end
+
   def self.fraction_sheet_content(questions_per_row=2,number_of_rows=5,operation=['add'],
     integer_range=10,fraction_range=10)
 

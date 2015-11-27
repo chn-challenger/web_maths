@@ -71,6 +71,11 @@ class LinearEquation
     end
     if next_step.operation == :subtract && next_step.orientation == :right
       current_step_range = [current_value,current_step_range].min - 1
+      if current_step_range < 2
+        next_step.operation = :add
+        current_step_range = options[next_step.operation] ?
+          options[next_step.operation] : DEFAULT_RANGE[next_step.operation]
+      end
     end
     if next_step.operation == :divide && next_step.orientation == :left
       next_step.value = current_value * rand(2..current_step_range)

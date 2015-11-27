@@ -1,5 +1,3 @@
-# require './generators/equation_step'
-
 module Evaluate
 
   def evaluate(starting_value,steps)
@@ -22,7 +20,3 @@ module Evaluate
   end
 
 end
-
-# include Evaluate
-#
-#

@@ -301,4 +301,15 @@ describe LatexPrinter do
     end
   end
 
+  describe '#one_sided_linear_equation_sheet_content' do
+    it 'creates latex content for 3 rows fo 2 3-step-questions per row' do
+      srand(200)
+      questions = LinearEquation.generate_one_sided_questions(6,3)
+      p questions
+      questions_latex = LatexPrinter.one_sided_linear_equation_sheet_content(questions,2,3,{variable:'y'})
+      puts questions_latex
+      expect(questions_latex).to eq 'hello'
+    end
+  end
+
 end

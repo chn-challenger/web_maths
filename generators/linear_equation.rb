@@ -62,7 +62,7 @@ class LinearEquation
       end
     end
     return [multiply_divide,ADD_SUBTRACT].sample.sample if left_side.count == 0
-    multiply_divide.include?(left_side.last.operation) ? ADD_SUBTRACT.sample : multiply_divide.sample
+    ADD_SUBTRACT.include?(left_side.last.operation) ? multiply_divide.sample : ADD_SUBTRACT.sample
   end
 
   def self._current_step_orientation

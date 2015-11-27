@@ -283,33 +283,54 @@ describe LatexPrinter do
       srand(300)
       question = LinearEquation.generate_one_sided(3)
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-      expect(question_latex).to eq "8\\left(\\frac{47-x}{4}\\right)=88"
+      expect(question_latex).to eq "54-\\frac{47-x}{4}=43"
     end
 
     it 'creates latex for one one_sided four step question' do
       srand(400)
       question = LinearEquation.generate_one_sided(4)
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-      expect(question_latex).to eq "43-8\\left(\\frac{x+10}{3}\\right)=3"
+      expect(question_latex).to eq "3\\left(38-\\frac{x+10}{3}\\right)=99"
     end
 
     it 'creates latex for one one_sided five step question' do
       srand(500)
       question = LinearEquation.generate_one_sided(5)
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-      expect(question_latex).to eq "4\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=556"
+      expect(question_latex).to eq "183-\\frac{9\\left(42-x\\right)-19}{2}=44"
     end
   end
-  # 
-  # describe '#one_sided_linear_equation_sheet_content' do
-  #   it 'creates latex content for 3 rows fo 2 3-step-questions per row' do
-  #     srand(200)
-  #     questions = LinearEquation.generate_one_sided_questions(12,3)
-  #     p questions
-  #     questions_latex = LatexPrinter.one_sided_linear_equation_sheet_content(questions,2,6,{variable:'y'})
-  #     puts questions_latex
-  #     expect(questions_latex).to eq 'hello'
-  #   end
-  # end
+
+  describe '#one_sided_linear_equation_sheet_content' do
+    it 'creates latex content for 3 rows fo 2 3-step-questions per row' do
+      srand(200)
+      questions = LinearEquation.generate_one_sided_questions(6,3)
+      questions_latex = LatexPrinter.one_sided_linear_equation_sheet_content(questions,2,3,{variable:'y'})
+      expected_questions_latex = "&1.\\hspace{15pt}\\frac{8}{6y-11}=8&&2.\\hsp"\
+        "ace{15pt}26-\\frac{y-5}{5}=25\\\\[2em]\n&3.\\hspace{15pt}5\\left(52-"\
+        "\\frac{56}{y}\\right)=220&&4.\\hspace{15pt}7\\left(\\frac{70}{y}-6\\"\
+        "right)=7\\\\[2em]\n&5.\\hspace{15pt}\\frac{10}{41-9y}=2&&6.\\hspace{"\
+        "15pt}9\\left(14-\\frac{48}{y}\\right)=54\n"
+      expect(questions_latex).to eq expected_questions_latex
+    end
+
+    it 'creates latex content for 6 rows fo 2 4-step-questions per row' do
+      srand(300)
+      questions = LinearEquation.generate_one_sided_questions(12,4)
+      questions_latex = LatexPrinter.one_sided_linear_equation_sheet_content(questions,2,6)
+      expected_questions_latex = "&1.\\hspace{15pt}8\\left(54-\\frac{47-x}{4}"\
+        "\\right)=344&&2.\\hspace{15pt}113-7\\left(8x-22\\right)=43\\\\[2em]\n"\
+        "&3.\\hspace{15pt}2\\left(2\\left(5+x\\right)-14\\right)=28&&4.\\hspac"\
+        "e{15pt}3\\left(\\frac{9}{x-2}-4\\right)=15\\\\[2em]\n&5.\\hspace{15pt"\
+        "}3\\left(25-\\frac{x}{2}\\right)-32=37&&6.\\hspace{15pt}\\frac{2x-10}"\
+        "{2}+44=45\\\\[2em]\n&7.\\hspace{15pt}6\\left(24-\\frac{18}{x}\\right)"\
+        "+43=151&&8.\\hspace{15pt}6\\left(2\\left(49-x\\right)+48\\right)=816"\
+        "\\\\[2em]\n&9.\\hspace{15pt}5\\left(\\frac{136}{11+x}-6\\right)=10&&1"\
+        "0.\\hspace{15pt}6\\left(17-\\frac{20}{x}\\right)+46=124\\\\[2em]\n&11"\
+        ".\\hspace{15pt}6\\left(77-7\\left(7-x\\right)\\right)=252&&12.\\hspac"\
+        "e{15pt}38-3\\left(7-\\frac{x}{2}\\right)=20\n"
+      expect(questions_latex).to eq expected_questions_latex
+    end
+  end
 
 end

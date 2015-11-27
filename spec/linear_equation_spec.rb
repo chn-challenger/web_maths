@@ -304,4 +304,30 @@ describe LinearEquation do
       expect(questions).to eq expected_questions
     end
   end
+
+  describe '#convert_to_general_equation' do
+    it 'can convert a one step one-sided to an equivalent general equation' do
+      left_side = [EquationStep.new(:add,5,:right)]
+      linear_equation = LinearEquation.new(left_side,12,7)
+      generation_equation = linear_equation.convert_to_general_equation('x')
+      expect(generation_equation).to eq Equation.new(Expression.new('x',[EquationStep.new(:add,5,:right)]),Expression.new(12))
+    end
+
+    it 'can convert a random one step one-sided to an equivalent general equation' do
+      srand(1200)
+      linear_equation = LinearEquation.generate_one_sided()
+      generation_equation = linear_equation.convert_to_general_equation('x')
+      expect(generation_equation).to eq Equation.new(Expression.new('x',
+        [EquationStep.new(:subtract,28,:left)]),Expression.new(23))
+    end
+
+    it 'can convert a random two step one-sided to an equivalent general equation' do
+      srand(1300)
+      linear_equation = LinearEquation.generate_one_sided(2)
+      generation_equation = linear_equation.convert_to_general_equation('x')
+      expect(generation_equation).to eq Equation.new(Expression.new('x',
+        [EquationStep.new(:add,49,:right),EquationStep.new(:multiply,6,:left)]),
+        Expression.new(312))
+    end
+  end
 end

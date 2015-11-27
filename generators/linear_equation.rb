@@ -1,5 +1,6 @@
 require './generators/equation_step'
 require './generators/evaluate'
+require './generators/equation'
 
 include Evaluate
 
@@ -42,6 +43,12 @@ class LinearEquation
     left_side == linear_equation.left_side &&
     right_side == linear_equation.right_side &&
     solution == linear_equation.solution
+  end
+
+  def convert_to_general_equation(variable_letter='x')
+    equation_left = Expression.new(variable_letter,left_side)
+    equation_right = Expression.new(right_side)
+    Equation.new(equation_left,equation_right,{variable_letter => solution})
   end
 
   private

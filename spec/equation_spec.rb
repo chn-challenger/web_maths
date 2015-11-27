@@ -226,15 +226,46 @@ describe Equation do
       expect(equation.solution_next_step).to eq arranged_equation
     end
   end
-  # describe '#generate_solution' do
-  #   it 'for one step right addition equation' do
-  #     step1 = EquationStep.new(:add,5,:right)
-  #     left_side = Expression.new('x',[step1])
-  #     right_side = Expression.new(11,[])
-  #     equation = Equation.new(left_side,right_side)
-  #     solution_array = [equation.dup,Equation.new('x',6)]
-  #     expect(equation.generate_solution).to eq solution_array
-  #   end
-  # end
+
+  describe '#generate_solution' do
+    it 'for one step right addition equation' do
+      equation = Equation.new(Expression.new('x',
+        [EquationStep.new(:add,5,:right)]),Expression.new(11))
+      equation1 = Equation.new(Expression.new('x',
+        [EquationStep.new(:add,5,:right)]),Expression.new(11))
+      equation2 = Equation.new(Expression.new('x'),Expression.new(11,
+          [EquationStep.new(:subtract,5,:right)]))
+      equation3 = Equation.new(Expression.new('x'),Expression.new(6))
+      expect(equation.generate_solution).to eq [equation1,equation2,equation3]
+    end
+
+    it 'for one step left division equation' do
+      equation = Equation.new(Expression.new('x',
+        [EquationStep.new(:divide,15,:left)]),Expression.new(5))
+      equation1 = Equation.new(Expression.new('x',
+        [EquationStep.new(:divide,15,:left)]),Expression.new(5))
+      equation2 = Equation.new(Expression.new(5,[EquationStep.new(:divide,15,:left)]),
+        Expression.new('x'),)
+      equation3 = Equation.new(Expression.new(3),Expression.new('x'),)
+      expect(equation.generate_solution).to eq [equation1,equation2,equation3]
+    end
+
+    it 'for two step linear equation with left subtraction' do
+      equation = Equation.new(Expression.new('x',
+        [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
+        Expression.new(4))
+      equation1 = Equation.new(Expression.new('x',
+        [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
+        Expression.new(4))
+      equation2 = Equation.new(Expression.new(4,[EquationStep.new(:subtract,14,:left)]),
+        Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
+      equation3 = Equation.new(Expression.new(10),
+        Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
+      equation4 = Equation.new(Expression.new(10,[EquationStep.new(:multiply,2,:right)]),
+        Expression.new('x'))
+      equation5 = Equation.new(Expression.new(5),Expression.new('x'))
+      expect(equation.generate_solution).to eq [equation1,equation2,equation3,equation4,equation5]
+    end
+  end
 
 end

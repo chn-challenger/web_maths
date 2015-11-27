@@ -85,45 +85,17 @@ class Equation
     end
     return self
   end
-    # if self_copy.left_side.steps.count > 0
-    #   steps_side = self_copy.left_side
-    #   values_side = self_copy.right_side
-    # else
-    #   steps_side = self_copy.right_side
-    #   values_side = self_copy.left_side
-    # end
-    # if steps_side.steps.count > 0
-    #   last_step = steps_side.steps.pop
-    #
-    #   side_swap = true if last_step.orientation == :left && (last_step.operation == :divide || last_step.operation == :subtract )
-    #
-    #   reverse_of_last_step = last_step.reverse
-    #   values_side.steps << reverse_of_last_step
-    # end
-    # self_copy
-    #
-    # self_copy_copy = self_copy.dup
-    # if self_copy_copy.left_side.initial_value.is_a?(Integer)
-    #   self_copy_copy.left_side = self_copy_copy.left_side.evaluate_next_step
-    # else
-    #   self_copy_copy.right_side = self_copy_copy.right_side.evaluate_next_step
-    # end
-    #
-    # if !!side_swap
-    #   self_copy.left_side, self_copy.right_side = self_copy.right_side, self_copy.left_side
-    #   self_copy_copy.left_side, self_copy_copy.right_side = self_copy_copy.right_side, self_copy_copy.left_side
-    # end
-    #
-    # [self_copy,self_copy_copy]
-
 
   def generate_solution
     solution_equations = []
-    first_equation = self.dup
-    solution_equations << first_equation
-    second_equation = first_equation.dup
-    step = second_equation.left_side.steps.shift
-    step.reverse
+    equation = self.dup
+    solution_equations << self
+    while true
+      equation = equation.solution_next_step
+      solution_equations << equation
+      break if equation.left_side.steps.count == 0 && equation.right_side.steps.count == 0
+    end
+    solution_equations
   end
 
 end

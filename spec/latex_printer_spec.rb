@@ -299,16 +299,8 @@ describe LatexPrinter do
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
       expect(question_latex).to eq "4\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=556"
     end
-
-    # it 'creates latex for one one_sided five step question' do
-    #   srand(500)
-    #   question = LinearEquation.generate_one_sided(9)
-    #   question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
-    #   puts question_latex
-    #   expect(question_latex).to eq "4\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=556"
-    # end
   end
-
+  # 
   # describe '#one_sided_linear_equation_sheet_content' do
   #   it 'creates latex content for 3 rows fo 2 3-step-questions per row' do
   #     srand(200)

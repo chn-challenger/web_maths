@@ -48,16 +48,18 @@ class LinearEquation
 
   def self._next_step(left_side,current_value,options)
     next_step = EquationStep.new()
-    next_step.operation = self._current_step_operation(left_side)
+    next_step.operation = self._current_step_operation(left_side,options)
     next_step.orientation = self._current_step_orientation
     self._set_next_step_value(current_value,next_step,options)
     next_step.normalize
   end
 
-  def self._current_step_operation(left_side)
+  def self._current_step_operation(left_side,options)
     multiply_divide = MULTIPLY_DIVIDE.dup
-    left_side.each do |step|
-      multiply_divide = [:multiply] if step.operation == :divide
+    unless !!options[:more_than_one_division]
+      left_side.each do |step|
+        multiply_divide = [:multiply] if step.operation == :divide
+      end
     end
     return [multiply_divide,ADD_SUBTRACT].sample.sample if left_side.count == 0
     multiply_divide.include?(left_side.last.operation) ? ADD_SUBTRACT.sample : multiply_divide.sample

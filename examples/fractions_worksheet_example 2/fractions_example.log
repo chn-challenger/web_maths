@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.24)  25 NOV 2015 19:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.24)  27 NOV 2015 09:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -259,7 +259,7 @@ File: omxiwona.fd 2008/07/22 v0.995 font definition file for OMX/iwona (MW)
 )
 
 LaTeX Font Warning: Font shape `OT1/iwona/m/sl' undefined
-(Font)              using `OT1/iwona/m/n' instead on input line 131.
+(Font)              using `OT1/iwona/m/n' instead on input line 132.
 
 [1
 
@@ -272,21 +272,22 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  2305 strings out of 493089
  32972 string characters out of 6134841
- 115591 words of memory out of 5000000
+ 111591 words of memory out of 5000000
  5798 multiletter control sequences out of 15000+600000
  27982 words of font info for 31 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  35i,14n,47p,259b,257s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/rm-iwona.enc}{/usr/
-local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/sy-iwona.enc}{/usr/local/te
-xlive/2015/texmf-dist/fonts/enc/dvips/iwona/mi-iwona.enc}</usr/local/texlive/20
-15/texmf-dist/fonts/type1/nowacki/iwona/iwonab.pfb></usr/local/texlive/2015/tex
-mf-dist/fonts/type1/nowacki/iwona/iwonar.pfb></usr/local/texlive/2015/texmf-dis
-t/fonts/type1/nowacki/iwona/iwonari.pfb>
-Output written on fractions_example.pdf (1 page, 62408 bytes).
+local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/mi-iwona.enc}{/usr/local/te
+xlive/2015/texmf-dist/fonts/enc/dvips/iwona/sy-iwona.enc}{/usr/local/texlive/20
+15/texmf-dist/fonts/enc/dvips/iwona/ex-iwona.enc}</usr/local/texlive/2015/texmf
+-dist/fonts/type1/nowacki/iwona/iwonab.pfb></usr/local/texlive/2015/texmf-dist/
+fonts/type1/nowacki/iwona/iwonar.pfb></usr/local/texlive/2015/texmf-dist/fonts/
+type1/nowacki/iwona/iwonari.pfb>
+Output written on fractions_example.pdf (1 page, 62358 bytes).
 PDF statistics:
- 27 PDF objects out of 1000 (max. 8388607)
- 20 compressed objects within 1 object stream
+ 30 PDF objects out of 1000 (max. 8388607)
+ 23 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -264,4 +264,41 @@ describe LatexPrinter do
     end
   end
 
+  describe '#one_sided_linear_equation_question' do
+    it 'creates latex for one one_sided one step question' do
+      srand(100)
+      question = LinearEquation.generate_one_sided(1)
+      question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
+      expect(question_latex).to eq "\\frac{x}{5}=2"
+    end
+
+    it 'creates latex for one one_sided two step question' do
+      srand(200)
+      question = LinearEquation.generate_one_sided(2)
+      question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
+      expect(question_latex).to eq "6x-11=1"
+    end
+
+    it 'creates latex for one one_sided three step question' do
+      srand(300)
+      question = LinearEquation.generate_one_sided(3)
+      question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
+      expect(question_latex).to eq "54-\\left(\\frac{47-x}{4}\\right)=43"
+    end
+
+    it 'creates latex for one one_sided four step question' do
+      srand(400)
+      question = LinearEquation.generate_one_sided(4)
+      question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
+      expect(question_latex).to eq "9\\left(38-\\left(\\frac{x+10}{3}\\right)\\right)=297"
+    end
+
+    it 'creates latex for one one_sided five step question' do
+      srand(500)
+      question = LinearEquation.generate_one_sided(5)
+      question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
+      expect(question_latex).to eq "183-\\left(\\frac{9\\left(42-x\\right)-19}{2}\\right)=44"
+    end
+  end
+
 end

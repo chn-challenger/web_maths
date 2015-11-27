@@ -21,19 +21,15 @@ class LatexPrinter
     "\\renewcommand{\\headrulewidth}{0pt}\n"\
     "\\pagestyle{fancy}\n"
 
-  def self.fraction_question(question)
-    question_latex = self._latex_fraction(question[:fraction1]) +
-      self._latex_sign(question[:operation]) + self._latex_fraction(question[:fraction2])
-    solution_latex = self._latex_fraction(question[:solution])
-    {question:question_latex,solution:solution_latex}
-  end
 
-  # @left_side = left_side
-  # @right_side = right_side
-  # @solution = solution
 
-  def self.one_sided_linear_equation_question(question)
-
+  def self.one_sided_linear_equation_question(question,unknow_variable)
+    step_number = 1
+    question.left_side.inject(unknow_variable) do |result, step|
+      result = self.one_sided_linear_equation_question_next_step(result,step,step_number)
+      step_number += 1
+      result
+    end + '=' + question.right_side.to_s
   end
 
   def self.one_sided_linear_equation_question_next_step(current_latex,step,step_number)
@@ -138,6 +134,13 @@ class LatexPrinter
     latex_solutions_sheet += content[:solutions] + "\\end{align*}\n\\end{document}"
 
     {questions_sheet:latex_questions_sheet,solutions_sheet:latex_solutions_sheet}
+  end
+
+  def self.fraction_question(question)
+    question_latex = self._latex_fraction(question[:fraction1]) +
+      self._latex_sign(question[:operation]) + self._latex_fraction(question[:fraction2])
+    solution_latex = self._latex_fraction(question[:solution])
+    {question:question_latex,solution:solution_latex}
   end
 
   private

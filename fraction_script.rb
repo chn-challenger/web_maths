@@ -1,15 +1,16 @@
 require 'fileutils'
 require './generators/latex_printer'
 
-sheet_title = 'Worksheet 1'
+sheet_title = 'Worksheet 2'
 student = 'Jayden Lu'
 
-questions_per_row = 3
+questions_per_row = 2
 number_of_rows = 7
-types = ['multiply','divide']
-integer_difficulty_range = 3
+# types = ['multiply','divide']
+types = ['subtract','add','multiply','divide']
+integer_difficulty_range = 6
 fraction_difficulty_range = 10
-keep_tex_source = false
+keep_tex_source = true
 
 
 #generate sheet and setup filenames

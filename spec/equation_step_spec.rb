@@ -80,7 +80,6 @@ describe EquationStep do
   end
 
   describe '#copy' do
-
     context 'making a copy of self' do
       shared_context 'self copy' do
         before(:all) do

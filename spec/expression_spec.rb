@@ -27,6 +27,54 @@ describe Expression do
     end
   end
 
+  describe '#copy' do
+    context 'making a copy of self when initial value is a integer' do
+      shared_context 'self copy' do
+        before(:all) do
+          @step1 = EquationStep.new(:add,5,:left)
+          @step2 = EquationStep.new(:subtract,7,:right)
+          @expression = Expression.new(3,[@step1,@step2])
+          @expression_copy = @expression.copy
+        end
+      end
+
+      include_context 'self copy'
+
+      it 'returns an instance of the class with same states' do
+        expect(@expression).to eq @expression_copy
+      end
+
+      it 'returns a different instance of the class with same states' do
+        expect(@expression.object_id).not_to eq @expression_copy.object_id
+      end
+    end
+
+    context 'making a copy of self when initial value is a string' do
+      shared_context 'self copy' do
+        before(:all) do
+          @step1 = EquationStep.new(:add,5,:left)
+          @step2 = EquationStep.new(:subtract,7,:right)
+          @expression = Expression.new('x',[@step1,@step2])
+          @expression_copy = @expression.copy
+        end
+      end
+
+      include_context 'self copy'
+
+      it 'returns an instance of the class with same states' do
+        expect(@expression).to eq @expression_copy
+      end
+
+      it 'returns a different instance of the class with same states' do
+        expect(@expression.object_id).not_to eq @expression_copy.object_id
+      end
+
+      it 'initial values are different string objects of the same string' do
+        expect(@expression.initial_value.object_id).not_to eq @expression_copy.initial_value.object_id
+      end
+    end
+  end
+
   describe '#evaluate_next_step' do
     it 'with a string initial value to a copy of itself' do
       expression = Expression.new('x',[EquationStep.new(:add,5,:left)])

@@ -409,6 +409,25 @@ describe LatexPrinter do
       question_latex = LatexPrinter.single_general_equation(equation)
       expect(question_latex).to eq "5\\left(x+5\\right)=\\frac{5}{y-5}"
     end
+
+    it 'can generate for a random linear equation' do
+      srand(100)
+      linear_equation = LinearEquation.generate_one_sided(4)
+      equation = linear_equation.convert_to_general_equation
+      question_latex = LatexPrinter.single_general_equation(equation)
+      expect(question_latex).to eq "6\\left(14-\\frac{x}{5}\\right)+4=76"
+    end
+  end
+
+  describe 'general_equation_solution' do
+    it 'generate solution equation latex' do
+      srand(2331)
+      linear_equation = LinearEquation.generate_one_sided(4)
+      general_equation = linear_equation.convert_to_general_equation
+      latex_solutions = LatexPrinter.general_equation_solution(general_equation)
+      puts latex_solutions
+      expect(latex_solutions).to eq "\\frac{3}{6x-35}-2=1\\\\\n\\frac{3}{6x-35}=1+2\\\\\n\\frac{3}{6x-35}=3\\\\\n\\frac{3}{3}=6x-35\\\\\n1=6x-35\\\\\n1+35=6x\\\\\n36=6x\\\\\n\\frac{36}{6}=x\\\\\n6=x"
+    end
   end
 
 end

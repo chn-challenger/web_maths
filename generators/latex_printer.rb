@@ -44,6 +44,16 @@ class LatexPrinter
     end
   end
 
+  def self.general_equation_solution(equation)
+    solutions = equation.generate_solution
+    result = ''
+    solutions.each do |solution|
+      result += self.single_general_equation(solution) + '\\\\' + "\n"
+    end
+    result.slice!(-3..-1)
+    result
+  end
+
   def self.equation_next_step(current_latex,step,step_number)
     modified_latex = current_latex
 

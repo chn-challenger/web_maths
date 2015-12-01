@@ -335,15 +335,14 @@ describe LatexPrinter do
 
   describe '#one_sided_linear_equation_sheet' do
     it 'creates a worksheet of 10 questions' do
-      # srand(2314)
-
       #feature test
       srand(111111)
-      questions2 = LinearEquation.generate_one_sided_questions(16,4)
-      sheet_latex2 = LatexPrinter.one_sided_linear_equation_sheet('Worksheet 1',
-        'Any',questions2,2,8)[:questions_sheet]
+      questions2 = LinearEquation.generate_one_sided_questions(4,2)
+      sheet_latex2 = LatexPrinter.one_sided_linear_equation_sheet_content(questions2,2,2)
       puts sheet_latex2
-      #end feature test
+      sheet_solution2 = LatexPrinter.one_sided_linear_equation_sheet_solutions(questions2,2,2)
+      p sheet_solution2
+      srand(2314)
       questions = LinearEquation.generate_one_sided_questions(10,3)
       sheet_latex = LatexPrinter.one_sided_linear_equation_sheet('Worksheet 1',
         'Billy Thomas',questions)[:questions_sheet]

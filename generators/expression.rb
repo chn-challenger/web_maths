@@ -13,7 +13,7 @@ class Expression
   end
 
   def ==(expression)
-    initial_value == expression.initial_value && steps = expression.steps
+    initial_value == expression.initial_value && steps == expression.steps
   end
 
   def evaluate_next_step
@@ -23,5 +23,7 @@ class Expression
     new_initial_value = evaluate(initial_value,[next_step])
     Expression.new(new_initial_value,current_steps)
   end
+
+  
 
 end

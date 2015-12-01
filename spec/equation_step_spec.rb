@@ -78,4 +78,26 @@ describe EquationStep do
       expect(step.reverse).to eq EquationStep.new(:multiply,5,:right)
     end
   end
+
+  describe '#copy' do
+
+    context 'making a copy of self' do
+      shared_context 'self copy' do
+        before(:all) do
+          @step = EquationStep.new(:multiply,7,:left)
+          @step_copy = @step.copy
+        end
+      end
+
+      include_context 'self copy'
+
+      it 'returns an instance of the class with same states' do
+        expect(@step_copy).to eq @step
+      end
+
+      it 'returns a different instance of the class with same states' do
+        expect(@step_copy.object_id).not_to eq @step.object_id
+      end
+    end
+  end
 end

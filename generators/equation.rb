@@ -49,12 +49,34 @@ class Equation
   end
 
   def solution_next_step
-    self_copy = self.dup
+    # self_copy = self.dup
+    left_initial_value = left_side.initial_value
+    left_steps = left_side.steps.dup
+    right_initial_value = right_side.initial_value
+    right_steps = right_side.steps.dup
+
+    left_copy = Expression.new(left_initial_value,left_steps)
+    right_copy = Expression.new(right_initial_value,right_steps)
+    solution_copy = solution.dup
+    self_copy = Equation.new(left_copy,right_copy,solution_copy)
+    # self_copy = Equation.new(left_side,right_side,solution)
     if (left_side.initial_value.is_a?(Integer) && left_side.steps.count > 0) || (right_side.initial_value.is_a?(Integer) && right_side.steps.count > 0)
       return self_copy._valuation_next_step
     end
     if (left_side.initial_value.is_a?(String) && left_side.steps.count > 0) || (right_side.initial_value.is_a?(String) && right_side.steps.count > 0)
-      return self_copy._reverse_last_step
+
+      puts "==================BEFORE==================="
+      p self
+      last_step = self_copy.left_side.steps.pop
+      puts "=====================AFTER===================="
+      p self
+      reverse_of_last_step = last_step.reverse
+      self_copy.right_side.steps << reverse_of_last_step
+      # puts "=====================AFTER===================="
+      # p self
+      return self_copy
+
+      # return self_copy._reverse_last_step
     end
     return self_copy
   end
@@ -89,12 +111,32 @@ class Equation
   def generate_solution
     solution_equations = []
     equation = self.dup
-    solution_equations << self
+    # solution_equations << self
+    puts
+    puts '%%%%%%%%%%%%%%%%%SOLUTION NEXT STEP%%%%%%%%%%%%%%%%%%%%%%'
+    p equation
+    puts '%%%%%%%%%%%%%%%%%END NEXT STEP%%%%%%%%%%%%%%%%%%%%%%'
+    puts
+    solution_equations << equation
     while true
       equation = equation.solution_next_step
+      puts
+      puts '%%%%%%%%%%%%%%%%%SOLUTION NEXT STEP%%%%%%%%%%%%%%%%%%%%%%'
+      p equation
+      puts '%%%%%%%%%%%%%%%%%END NEXT STEP%%%%%%%%%%%%%%%%%%%%%%'
+      puts
       solution_equations << equation
       break if equation.left_side.steps.count == 0 && equation.right_side.steps.count == 0
     end
+    puts
+    puts
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    puts '%%%%%%%%%%%%%%%%%FINAL SOLUTIONS%%%%%%%%%%%%%%%%%%%%%%'
+    p solution_equations
+    puts '%%%%%%%%%%%%%%%%%END FINAL SOLUTIONS%%%%%%%%%%%%%%%%%%%%%%'
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    puts
+    puts
     solution_equations
   end
 

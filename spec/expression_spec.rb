@@ -19,6 +19,12 @@ describe Expression do
       expression2 = Expression.new('x',[EquationStep.new(:add,5,:left)])
       expect(expression1).to eq expression2
     end
+
+    it 'asserts inequality of two expressions' do
+      expression1 = Expression.new('x',[EquationStep.new(:add,5,:left)])
+      expression2 = Expression.new('x',[])
+      expect(expression1).not_to eq expression2
+    end
   end
 
   describe '#evaluate_next_step' do

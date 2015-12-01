@@ -12,6 +12,10 @@ class EquationStep
     (operation == equation_step.operation) && (value == equation_step.value) && (orientation == equation_step.orientation)
   end
 
+  def copy
+    EquationStep.new(operation,value,orientation)
+  end
+
   def normalize
     @orientation = :left if operation == :multiply
     return self

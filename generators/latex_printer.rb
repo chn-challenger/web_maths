@@ -1,6 +1,7 @@
 require './generators/fraction'
 require './generators/serial'
 require './generators/linear_equation'
+require './generators/equation'
 include SerialNumber
 
 class LatexPrinter
@@ -94,6 +95,40 @@ class LatexPrinter
       content_latex
   end
 
+  def self.one_sided_linear_equation_sheet_solutions(questions,questions_per_row=2,number_of_rows=5,options={})
+    options[:variable] ||= 'x'
+    question_number = 1
+    solution_latex = ''
+    number_of_questions = number_of_rows * questions_per_row
+
+    solutions = []
+    questions.each do |question|
+      solution = question.convert_to_general_equation
+      puts '****************START SOLUTION*****************************'
+      p solution.generate_solution
+      puts '****************END SOLUTION*****************************'
+      solutions << solution
+    end
+
+    solutions
+  end
+
+  def self.one_sided_linear_equation_sheet(title='',student='',questions=nil,questions_per_row=2,number_of_rows=5,topic_prefix='LEN',options={})
+
+    content = self.one_sided_linear_equation_sheet_content(questions,questions_per_row,number_of_rows,options)
+    serial = generate_serial
+
+    latex_questions_sheet = HEADERS
+    latex_questions_sheet += "\\lfoot{#{topic_prefix}-#{serial}Q\\quad \\textc"\
+      "opyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{student:}\\quad"\
+      " #{student}}\n\\begin{document}\n"
+    latex_questions_sheet += "\\section*{\\centerline{Linear Equations #{title}}}\n\\"\
+      "vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
+    latex_questions_sheet += content + "\\end{align*}\n\\end{document}"
+
+    {questions_sheet:latex_questions_sheet}
+  end
+
   def self.fraction_sheet_content(questions_per_row=2,number_of_rows=5,operation=['add'],
     integer_range=10,fraction_range=10)
 
@@ -123,22 +158,6 @@ class LatexPrinter
       latex_solutions += "\n"
     end
     {questions: latex_questions,solutions: latex_solutions}
-  end
-
-  def self.one_sided_linear_equation_sheet(title='',student='',questions=nil,questions_per_row=2,number_of_rows=5,topic_prefix='LEN',options={})
-
-    content = self.one_sided_linear_equation_sheet_content(questions,questions_per_row,number_of_rows,options)
-    serial = generate_serial
-
-    latex_questions_sheet = HEADERS
-    latex_questions_sheet += "\\lfoot{#{topic_prefix}-#{serial}Q\\quad \\textc"\
-      "opyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{student:}\\quad"\
-      " #{student}}\n\\begin{document}\n"
-    latex_questions_sheet += "\\section*{\\centerline{Linear Equations #{title}}}\n\\"\
-      "vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
-    latex_questions_sheet += content + "\\end{align*}\n\\end{document}"
-
-    {questions_sheet:latex_questions_sheet}
   end
 
   def self.fraction_sheet(title='',student='',questions_per_row=2,number_of_rows=5,

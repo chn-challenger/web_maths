@@ -20,7 +20,7 @@ class Expression
     new_steps = []
     steps.each {|step| new_steps << step.copy}
     copy_initial_value = initial_value.is_a?(String) ? initial_value.dup : initial_value
-    return Expression.new(copy_initial_value,new_steps)
+    Expression.new(copy_initial_value,new_steps)
   end
 
   def evaluate_next_step

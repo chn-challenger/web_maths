@@ -463,8 +463,9 @@
 # end
 
 # a = 'hello'
+# b = a
 # b = a.dup
-# a.gsub!('h','HHHH')
+# b.gsub!('h','HHHH')
 # p a
 # p b
 # puts a.object_id

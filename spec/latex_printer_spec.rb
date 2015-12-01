@@ -297,6 +297,7 @@ describe LatexPrinter do
       srand(500)
       question = LinearEquation.generate_one_sided(5)
       question_latex = LatexPrinter.one_sided_linear_equation_question(question,'x')
+      puts question_latex
       expect(question_latex).to eq "183-\\frac{9\\left(42-x\\right)-19}{2}=44"
     end
   end

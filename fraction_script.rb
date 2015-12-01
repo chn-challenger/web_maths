@@ -2,7 +2,7 @@ require 'fileutils'
 require './generators/latex_printer'
 
 sheet_title = 'Worksheet 2'
-student = 'Jayden Lu'
+student = 'Test'
 
 questions_per_row = 2
 number_of_rows = 7

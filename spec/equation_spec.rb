@@ -2,32 +2,32 @@ require './generators/equation'
 
 describe Equation do
 
-  describe '#copy' do
-    context 'making a copy of self when initial value is a integer' do
-      shared_context 'self copy' do
-        before(:all) do
-          @step1 = EquationStep.new(:add,5,:left)
-          @step2 = EquationStep.new(:subtract,7,:right)
-          @step3 = EquationStep.new(:multiply,3,:left)
-          @step4 = EquationStep.new(:divide,4,:right)
-          @expression1 = Expression.new(3,[@step1,@step2])
-          @expression2 = Expression.new('x',[@step3,@step4])
-          @equation = Equation.new(@expression1,@expression2)
-          @equation_copy = @equation.copy
-        end
-      end
-
-      include_context 'self copy'
-
-      it 'returns an instance of the class with same states' do
-        expect(@equation).to eq @equation_copy
-      end
-
-      it 'returns a different instance of the class with same states' do
-        expect(@equation.object_id).not_to eq @equation_copy.object_id
-      end
-    end
-  end
+  # describe '#copy' do
+  #   context 'making a copy of self when initial value is a integer' do
+  #     shared_context 'self copy' do
+  #       before(:all) do
+  #         @step1 = EquationStep.new(:add,5,:left)
+  #         @step2 = EquationStep.new(:subtract,7,:right)
+  #         @step3 = EquationStep.new(:multiply,3,:left)
+  #         @step4 = EquationStep.new(:divide,4,:right)
+  #         @expression1 = Expression.new(3,[@step1,@step2])
+  #         @expression2 = Expression.new('x',[@step3,@step4])
+  #         @equation = Equation.new(@expression1,@expression2)
+  #         @equation_copy = @equation.copy
+  #       end
+  #     end
+  #
+  #     include_context 'self copy'
+  #
+  #     it 'returns an instance of the class with same states' do
+  #       expect(@equation).to eq @equation_copy
+  #     end
+  #
+  #     it 'returns a different instance of the class with same states' do
+  #       expect(@equation.object_id).not_to eq @equation_copy.object_id
+  #     end
+  #   end
+  # end
 
   # describe '#initialize/new' do
   #   let(:equation){described_class.new}
@@ -282,22 +282,22 @@ describe Equation do
   #     expect(equation.generate_solution).to eq [equation1,equation2,equation3]
   #   end
   #
-  #   it 'for two step linear equation with left subtraction' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
-  #       Expression.new(4))
-  #     equation1 = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
-  #       Expression.new(4))
-  #     equation2 = Equation.new(Expression.new(4,[EquationStep.new(:subtract,14,:left)]),
-  #       Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
-  #     equation3 = Equation.new(Expression.new(10),
-  #       Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
-  #     equation4 = Equation.new(Expression.new(10,[EquationStep.new(:multiply,2,:right)]),
-  #       Expression.new('x'))
-  #     equation5 = Equation.new(Expression.new(5),Expression.new('x'))
-  #     expect(equation.generate_solution).to eq [equation1,equation2,equation3,equation4,equation5]
-  #   end
+    it 'for two step linear equation with left subtraction' do
+      equation = Equation.new(Expression.new('x',
+        [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
+        Expression.new(4))
+      equation1 = Equation.new(Expression.new('x',
+        [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
+        Expression.new(4))
+      equation2 = Equation.new(Expression.new(4,[EquationStep.new(:subtract,14,:left)]),
+        Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
+      equation3 = Equation.new(Expression.new(10),
+        Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
+      equation4 = Equation.new(Expression.new(10,[EquationStep.new(:multiply,2,:right)]),
+        Expression.new('x'))
+      equation5 = Equation.new(Expression.new(5),Expression.new('x'))
+      expect(equation.generate_solution).to eq [equation1,equation2,equation3,equation4,equation5]
+    end
   # end
 
 end

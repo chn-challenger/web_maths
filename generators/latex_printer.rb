@@ -104,9 +104,6 @@ class LatexPrinter
     solutions = []
     questions.each do |question|
       solution = question.convert_to_general_equation
-      puts '****************START SOLUTION*****************************'
-      p solution.generate_solution
-      puts '****************END SOLUTION*****************************'
       solutions << solution
     end
 

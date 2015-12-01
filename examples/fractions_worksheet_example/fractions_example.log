@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.20)  21 NOV 2015 12:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.20)  1 DEC 2015 17:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -229,52 +229,50 @@ LaTeX Font Info:    ... okay on input line 17.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Calculating math sizes for size <18> on input line 26.
+LaTeX Font Info:    Calculating math sizes for size <18> on input line 23.
 LaTeX Font Info:    Try loading font information for OT1+iwonam on input line 2
-6.
+3.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/ot1iwonam.fd
 File: ot1iwonam.fd 2005/10/05 v1.2 font definition file for OT1/iwonam (MW)
 )
-LaTeX Font Info:    Try loading font information for OML+iwona on input line 26
+LaTeX Font Info:    Try loading font information for OML+iwona on input line 23
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omliwona.fd
 File: omliwona.fd 2008/07/22 v0.995 font definition file for OML/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMS+iwona on input line 26
+LaTeX Font Info:    Try loading font information for OMS+iwona on input line 23
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omsiwona.fd
 File: omsiwona.fd 2008/07/22 v0.995 font definition file for OMS/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMX+iwona on input line 26
+LaTeX Font Info:    Try loading font information for OMX+iwona on input line 23
 .
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omxiwona.fd
 File: omxiwona.fd 2008/07/22 v0.995 font definition file for OMX/iwona (MW)
 ) [1
 
-{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (./fractions_example.aux) ) 
 Here is how much of TeX's memory you used:
- 2405 strings out of 493089
- 34558 string characters out of 6134841
- 211545 words of memory out of 5000000
- 5893 multiletter control sequences out of 15000+600000
- 33884 words of font info for 32 fonts, out of 8000000 for 9000
+ 2403 strings out of 493089
+ 34531 string characters out of 6134841
+ 209545 words of memory out of 5000000
+ 5892 multiletter control sequences out of 15000+600000
+ 30811 words of font info for 31 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,11n,36p,412b,178s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 35i,11n,36p,259b,182s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/
-iwona/sy-iwona.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/mi
--iwona.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/rm-iwona.e
-nc}</usr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonab.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonabi.pfb></usr/lo
-cal/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonar.pfb></usr/local/te
-xlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonari.pfb>
-Output written on fractions_example.pdf (2 pages, 71120 bytes).
+iwona/rm-iwona.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/mi
+-iwona.enc}</usr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonab
+.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonar.pfb><
+/usr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonari.pfb>
+Output written on fractions_example.pdf (1 page, 51274 bytes).
 PDF statistics:
- 34 PDF objects out of 1000 (max. 8388607)
- 25 compressed objects within 1 object stream
+ 24 PDF objects out of 1000 (max. 8388607)
+ 17 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -31,6 +31,57 @@ class LatexPrinter
     end + '=' + question.right_side.to_s
   end
 
+  def self.single_general_equation(equation)
+    self._single_expression(equation.left_side) + '=' + self._single_expression(equation.right_side)
+  end
+
+  def self._single_expression(expression)
+    step_number = 1
+    expression.steps.inject(expression.initial_value.to_s) do |result, step|
+      result = self.equation_next_step(result,step,step_number)
+      step_number += 1
+      result
+    end
+  end
+
+  def self.equation_next_step(current_latex,step,step_number)
+    modified_latex = current_latex
+
+    if step.operation == :add && step.orientation == :left
+        modified_latex = step.value.to_s + '+' + modified_latex
+    end
+
+    if step.operation == :add && step.orientation == :right
+      modified_latex = modified_latex +  '+' + step.value.to_s
+    end
+
+    if step.operation == :subtract && step.orientation == :left
+        modified_latex = step.value.to_s + '-' + modified_latex
+    end
+
+    if step.operation == :subtract && step.orientation == :right
+      modified_latex = modified_latex +  '-' + step.value.to_s
+    end
+
+    if step.operation == :multiply
+      if step_number == 1
+        modified_latex = step.value.to_s + modified_latex
+      else
+        modified_latex = step.value.to_s + '\left(' + modified_latex + '\right)'
+      end
+    end
+
+    if step.operation == :divide && step.orientation == :left
+      modified_latex = '\frac{' + step.value.to_s + '}{' + modified_latex +  '}'
+    end
+
+    if step.operation == :divide && step.orientation == :right
+      modified_latex = '\frac{' + modified_latex + '}{' + step.value.to_s +  '}'
+    end
+
+    modified_latex
+  end
+
   def self.one_sided_linear_equation_question_next_step(current_latex,step,step_number)
     modified_latex = current_latex
 

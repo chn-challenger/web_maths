@@ -367,4 +367,48 @@ describe LatexPrinter do
     end
   end
 
+  describe '#equation_next_step' do
+    it 'modifies latex output for left addition' do
+      current_latex = 'x'
+      next_step = EquationStep.new(:add,5,:left)
+      step_number = 1
+      new_latex = LatexPrinter.equation_next_step(
+        current_latex,next_step,step_number)
+      expect(new_latex).to eq '5+x'
+    end
+
+    #more tests?
+  end
+
+  describe '#single_general_equation' do
+    it 'generates latex for one general equation' do
+      equation = Equation.new(Expression.new('x',[EquationStep.new(:add,5,:right)]),Expression.new(8))
+      question_latex = LatexPrinter.single_general_equation(equation)
+      expect(question_latex).to eq 'x+5=8'
+    end
+
+    it 'generates latex for a two step general equation' do
+      equation = Equation.new(Expression.new('x',[EquationStep.new(:add,5,:right),
+        EquationStep.new(:multiply,5,:left)]),Expression.new(8))
+      question_latex = LatexPrinter.single_general_equation(equation)
+      expect(question_latex).to eq "5\\left(x+5\\right)=8"
+    end
+
+    it 'generates latex for a three step general equation' do
+      equation = Equation.new(Expression.new('x',[EquationStep.new(:add,5,:right),
+        EquationStep.new(:multiply,5,:left),EquationStep.new(:divide,125,:left)]),
+        Expression.new(8))
+      question_latex = LatexPrinter.single_general_equation(equation)
+      expect(question_latex).to eq "\\frac{125}{5\\left(x+5\\right)}=8"
+    end
+
+    it 'generates latex for a two step two sided general equation' do
+      equation = Equation.new(Expression.new('x',[EquationStep.new(:add,5,:right),
+        EquationStep.new(:multiply,5,:left)]),Expression.new('y',
+        [EquationStep.new(:subtract,5,:right),EquationStep.new(:divide,5,:left)]))
+      question_latex = LatexPrinter.single_general_equation(equation)
+      expect(question_latex).to eq "5\\left(x+5\\right)=\\frac{5}{y-5}"
+    end
+  end
+
 end

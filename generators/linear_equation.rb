@@ -1,4 +1,3 @@
-# require './generators/equation_step'
 require './generators/evaluate'
 require './generators/equation'
 
@@ -11,22 +10,7 @@ class LinearEquation < Equation
   ADD_SUBTRACT = [:add,:subtract]
   ORIENTATIONS = [:left,:right]
 
-  # attr_reader :left_side, :right_side, :solution
-  #
-  # def initialize(left_side,right_side,solution)
-  #   @left_side = left_side
-  #   @right_side = right_side
-  #   @solution = solution
-  # end
-  def self.generate(number_of_questions=1,options={steps:1,solution_range:10,variable:'x'})
-    questions = []
-    number_of_questions.times do
-      questions << self._generate_one(options)
-    end
-    questions
-  end
-
-  def self._generate_one(options={steps:1,solution_range:10,variable:'x'})
+  def self.generate(options={steps:1,solution_range:10,variable:'x'})
     solution = rand(2..options[:solution_range])
     left_side = []
     current_value = solution
@@ -41,24 +25,54 @@ class LinearEquation < Equation
     LinearEquation.new(left_expression,right_expression,equation_solution)
   end
 
-  # def self.generate_one_sided_questions(number_of_questions=12,number_of_steps=1,solution_range=10,options={})
-  #   questions = []
-  #   number_of_questions.times do
-  #     questions << self.generate_one_sided(number_of_steps,solution_range,options)
-  #   end
-  #   questions
-  # end
+  def generate_solution
+    solution_equations = []
+    equation = self.copy
+    solution_equations << equation
+    while true
+      equation = equation._solution_next_step
+      solution_equations << equation
+      break if equation.left_side.steps.count == 0 && equation.right_side.steps.count == 0
+    end
+    solution_equations
+  end
 
-  # def ==(linear_equation)
-  #   left_side == linear_equation.left_side &&
-  #   right_side == linear_equation.right_side &&
-  #   solution == linear_equation.solution
-  # end
+  def _solution_next_step
+    self_copy = self.copy
+    if (left_side.initial_value.is_a?(Integer) && left_side.steps.count > 0) || (right_side.initial_value.is_a?(Integer) && right_side.steps.count > 0)
+      return self_copy._valuation_next_step
+    end
+    if (left_side.initial_value.is_a?(String) && left_side.steps.count > 0) || (right_side.initial_value.is_a?(String) && right_side.steps.count > 0)
+      return self_copy._reverse_last_step
+    end
+    return self_copy
+  end
 
-  def convert_to_general_equation(variable_letter='x')
-    equation_left = Expression.new(variable_letter,left_side)
-    equation_right = Expression.new(right_side)
-    Equation.new(equation_left,equation_right,{variable_letter => solution})
+  def _reverse_last_step
+    if (left_side.initial_value.is_a?(String) && left_side.steps.count > 0)
+      last_step = left_side.steps.pop
+      side_swap = true if last_step.orientation == :left && (last_step.operation == :divide || last_step.operation == :subtract)
+      reverse_of_last_step = last_step.reverse
+      right_side.steps << reverse_of_last_step
+    end
+    if (right_side.initial_value.is_a?(String) && right_side.steps.count > 0)
+      last_step = right_side.steps.pop
+      side_swap = true if last_step.orientation == :left && (last_step.operation == :divide || last_step.operation == :subtract)
+      reverse_of_last_step = last_step.reverse
+      left_side.steps << reverse_of_last_step
+    end
+    @left_side, @right_side = right_side, left_side if side_swap
+    return self
+  end
+
+  def _valuation_next_step
+    if (left_side.initial_value.is_a?(Integer) && left_side.steps.count > 0)
+      @left_side = left_side.evaluate_next_step
+    end
+    if (right_side.initial_value.is_a?(Integer) && right_side.steps.count > 0)
+      @right_side = right_side.evaluate_next_step
+    end
+    return self
   end
 
   private
@@ -121,5 +135,3 @@ class LinearEquation < Equation
   end
 
 end
-
-# p LinearEquation.generate(2,{steps:1,solution_range:10,variable:'x'})

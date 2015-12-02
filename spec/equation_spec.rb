@@ -1,34 +1,6 @@
 require './generators/equation'
 
 describe Equation do
-
-  describe '#copy' do
-    context 'making a copy of self when initial value is a integer' do
-      shared_context 'self copy' do
-        before(:all) do
-          @step1 = EquationStep.new(:add,5,:left)
-          @step2 = EquationStep.new(:subtract,7,:right)
-          @step3 = EquationStep.new(:multiply,3,:left)
-          @step4 = EquationStep.new(:divide,4,:right)
-          @expression1 = Expression.new(3,[@step1,@step2])
-          @expression2 = Expression.new('x',[@step3,@step4])
-          @equation = Equation.new(@expression1,@expression2)
-          @equation_copy = @equation.copy
-        end
-      end
-
-      include_context 'self copy'
-
-      it 'returns an instance of the class with same states' do
-        expect(@equation).to eq @equation_copy
-      end
-
-      it 'returns a different instance of the class with same states' do
-        expect(@equation.object_id).not_to eq @equation_copy.object_id
-      end
-    end
-  end
-
   describe '#initialize/new' do
     let(:equation){described_class.new}
 
@@ -44,261 +16,61 @@ describe Equation do
       expect(equation.solution).to be {}
     end
   end
-  #
-  # describe '#solution_next_step_old' do
-  #   it 'returns next pair of steps one step right addition equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:add,5,:right)]),Expression.new(11))
-  #     expected_returns = [Equation.new(Expression.new('x'),
-  #       Expression.new(11,[EquationStep.new(:subtract,5,:right)])),
-  #       Equation.new(Expression.new('x'),Expression.new(6))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps one step left addition equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:add,5,:left)]),Expression.new(11))
-  #     expected_returns = [Equation.new(Expression.new('x'),
-  #       Expression.new(11,[EquationStep.new(:subtract,5,:right)])),
-  #       Equation.new(Expression.new('x'),Expression.new(6))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps one step right multiplication equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:multiply,5,:right)]),Expression.new(15))
-  #     expected_returns = [Equation.new(Expression.new('x'),
-  #       Expression.new(15,[EquationStep.new(:divide,5,:right)])),
-  #       Equation.new(Expression.new('x'),Expression.new(3))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps one step left multiplication equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:multiply,5,:left)]),Expression.new(15))
-  #     expected_returns = [Equation.new(Expression.new('x'),
-  #       Expression.new(15,[EquationStep.new(:divide,5,:right)])),
-  #       Equation.new(Expression.new('x'),Expression.new(3))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps one step right subtraction equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:subtract,5,:right)]),Expression.new(15))
-  #     expected_returns = [Equation.new(Expression.new('x'),
-  #       Expression.new(15,[EquationStep.new(:add,5,:right)])),
-  #       Equation.new(Expression.new('x'),Expression.new(20))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps one step right division equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:divide,5,:right)]),Expression.new(15))
-  #     expected_returns = [Equation.new(Expression.new('x'),
-  #       Expression.new(15,[EquationStep.new(:multiply,5,:right)])),
-  #       Equation.new(Expression.new('x'),Expression.new(75))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps one step left subtraction equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:subtract,21,:left)]),Expression.new(11))
-  #     expected_returns = [Equation.new(Expression.new(11,[EquationStep.new(:subtract,21,:left)]),Expression.new('x')),
-  #       Equation.new(Expression.new(10),Expression.new('x'))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps one step left division equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:divide,21,:left)]),Expression.new(7))
-  #     expected_returns = [Equation.new(Expression.new(7,[EquationStep.new(:divide,21,:left)]),Expression.new('x')),
-  #       Equation.new(Expression.new(3),Expression.new('x'))]
-  #     expect(equation.solution_next_step_old).to eq expected_returns
-  #   end
-  #
-  #   it 'returns next pair of steps of a two step equation' do
-  #     equation = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:multiply,3,:left),EquationStep.new(:subtract,10,:right)]),Expression.new(11))
-  #     equation1 = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:multiply,3,:left)]),Expression.new(11,EquationStep.new(:add,10,:right)))
-  #     equation2 = Equation.new(Expression.new('x',
-  #       [EquationStep.new(:multiply,3,:left)]),Expression.new(21))
-  #     expect(equation.solution_next_step_old).to eq [equation1,equation2]
-  #   end
-  # end
-  #
-  describe '#solution_next_step' do
-    it 'returns 1st step of a one step right addition equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:add,5,:right)]),Expression.new(11))
-      equation_copy = Equation.new(Expression.new('x',
-        [EquationStep.new(:add,5,:right)]),Expression.new(11))
 
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(11,[EquationStep.new(:subtract,5,:right)]))
-      expect(equation.solution_next_step).to eq arranged_equation
-      expect(equation).to eq equation_copy
+  describe '#==' do
+    it 'can determine equivalence of two default equations' do
+      equation1 = Equation.new
+      equation2 = Equation.new
+      expect(equation1).to eq equation2
     end
 
-    it 'returns 2nd step of a one step right addition equation' do
-      equation = Equation.new(Expression.new('x'),
-        Expression.new(11,[EquationStep.new(:subtract,5,:right)]))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(6))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 1st step of a one step left addition equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:add,5,:left)]),Expression.new(11))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(11,[EquationStep.new(:subtract,5,:right)]))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 2nd step of a one step left addition equation' do
-      equation = Equation.new(Expression.new('x'),
-        Expression.new(11,[EquationStep.new(:subtract,5,:right)]))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(6))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 1st step of a one step right multiplication equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:multiply,5,:right)]),Expression.new(15))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:divide,5,:right)]))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 2nd step of a one step right multiplication equation' do
-      equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:divide,5,:right)]))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(3))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 1st step of a one step left multiplication equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:multiply,5,:left)]),Expression.new(15))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:divide,5,:right)]))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 2nd step of a one step left multiplication equation' do
-      equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:divide,5,:right)]))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(3))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 1st step of a one step right subtraction equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:subtract,5,:right)]),Expression.new(15))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:add,5,:right)]))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 2nd step of a one step right subtraction equation' do
-      equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:add,5,:right)]))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(20))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 1st step of a one step right division equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:divide,5,:right)]),Expression.new(15))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:multiply,5,:right)]))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 2nd step of a one step right division equation' do
-      equation = Equation.new(Expression.new('x'),
-        Expression.new(15,[EquationStep.new(:multiply,5,:right)]))
-      arranged_equation = Equation.new(Expression.new('x'),
-        Expression.new(75))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 1st step of a one step left subtraction equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:subtract,15,:left)]),Expression.new(5))
-      arranged_equation = Equation.new(Expression.new(5,
-        [EquationStep.new(:subtract,15,:left)]),Expression.new('x'))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 2st step of a one step left subtraction equation' do
-      equation = Equation.new(Expression.new(5,
-        [EquationStep.new(:subtract,15,:left)]),Expression.new('x'))
-      arranged_equation = Equation.new(Expression.new(10),Expression.new('x'))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 1st step of a one step left division equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:divide,15,:left)]),Expression.new(5))
-      arranged_equation = Equation.new(Expression.new(5,
-        [EquationStep.new(:divide,15,:left)]),Expression.new('x'))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-
-    it 'returns 2st step of a one step left division equation' do
-      equation = Equation.new(Expression.new(5,
-        [EquationStep.new(:divide,15,:left)]),Expression.new('x'))
-      arranged_equation = Equation.new(Expression.new(3),Expression.new('x'))
-      expect(equation.solution_next_step).to eq arranged_equation
-    end
-  end
-
-  describe '#generate_solution' do
-    it 'for one step right addition equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:add,5,:right)]),Expression.new(11))
-      equation1 = Equation.new(Expression.new('x',
-        [EquationStep.new(:add,5,:right)]),Expression.new(11))
-      equation2 = Equation.new(Expression.new('x'),Expression.new(11,
-          [EquationStep.new(:subtract,5,:right)]))
-      equation3 = Equation.new(Expression.new('x'),Expression.new(6))
-      solutions = equation.generate_solution
-      expect(solutions).to eq [equation1,equation2,equation3]
-    end
-
-    it 'for one step left division equation' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:divide,15,:left)]),Expression.new(5))
-      equation1 = Equation.new(Expression.new('x',
-        [EquationStep.new(:divide,15,:left)]),Expression.new(5))
-      equation2 = Equation.new(Expression.new(5,[EquationStep.new(:divide,15,:left)]),
-        Expression.new('x'),)
-      equation3 = Equation.new(Expression.new(3),Expression.new('x'),)
-      expect(equation.generate_solution).to eq [equation1,equation2,equation3]
-    end
-
-    it 'for two step linear equation with left subtraction' do
-      equation = Equation.new(Expression.new('x',
-        [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
-        Expression.new(4))
+    it 'can determine equivalence of two equations with steps' do
       equation1 = Equation.new(Expression.new('x',
         [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
         Expression.new(4))
-      equation2 = Equation.new(Expression.new(4,[EquationStep.new(:subtract,14,:left)]),
-        Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
-      equation3 = Equation.new(Expression.new(10),
-        Expression.new('x',[EquationStep.new(:multiply,2,:right)]))
-      equation4 = Equation.new(Expression.new(10,[EquationStep.new(:divide,2,:right)]),
-        Expression.new('x'))
-      equation5 = Equation.new(Expression.new(5),Expression.new('x'))
-      expect(equation.generate_solution).to eq [equation1,equation2,equation3,equation4,equation5]
+      equation2 = Equation.new(Expression.new('x',
+        [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
+        Expression.new(4))
+      expect(equation1).to eq equation2
+    end
+    it 'can determine non-equivalence of two equations with steps' do
+      equation1 = Equation.new(Expression.new('x',
+        [EquationStep.new(:add,2,:right),EquationStep.new(:subtract,14,:left)]),
+        Expression.new(4))
+      equation2 = Equation.new(Expression.new('x',
+        [EquationStep.new(:multiply,2,:right),EquationStep.new(:subtract,14,:left)]),
+        Expression.new(4))
+      expect(equation1).not_to eq equation2
     end
   end
 
+  describe '#copy' do
+    shared_context 'self copy' do
+      before(:all) do
+        @step1 = EquationStep.new(:add,5,:left)
+        @step2 = EquationStep.new(:subtract,7,:right)
+        @step3 = EquationStep.new(:multiply,3,:left)
+        @step4 = EquationStep.new(:divide,4,:right)
+        @expression1 = Expression.new(3,[@step1,@step2])
+        @expression2 = Expression.new('x',[@step3,@step4])
+        @equation = Equation.new(@expression1,@expression2)
+        @equation_copy = @equation.copy
+      end
+    end
+
+    include_context 'self copy'
+
+    it 'returns an instance of the class with same states' do
+      expect(@equation).to eq @equation_copy
+    end
+
+    it 'the copied instance states have different object_ids example' do
+      copied_equation_state_object_id = @equation_copy.left_side.steps.first.object_id
+      expect(@equation.left_side.steps.first.object_id).not_to eq copied_equation_state_object_id
+    end
+
+    it 'returns a different instance of the class with same states' do
+      expect(@equation.object_id).not_to eq @equation_copy.object_id
+    end
+  end
 end

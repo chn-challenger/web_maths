@@ -31,6 +31,16 @@ class LatexPrinter
     end + '=' + question.right_side.to_s
   end
 
+  def self.general_equation_solution(equation)
+    solutions = equation.generate_solution
+    result = ''
+    solutions.each do |solution|
+      result += self.single_general_equation(solution) + '\\\\' + "\n"
+    end
+    result.slice!(-3..-1)
+    result
+  end
+
   def self.single_general_equation(equation)
     self._single_expression(equation.left_side) + '=' + self._single_expression(equation.right_side)
   end
@@ -42,16 +52,6 @@ class LatexPrinter
       step_number += 1
       result
     end
-  end
-
-  def self.general_equation_solution(equation)
-    solutions = equation.generate_solution
-    result = ''
-    solutions.each do |solution|
-      result += self.single_general_equation(solution) + '\\\\' + "\n"
-    end
-    result.slice!(-3..-1)
-    result
   end
 
   def self.equation_next_step(current_latex,step,step_number)

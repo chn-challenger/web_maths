@@ -10,6 +10,68 @@ class LinearEquation < Equation
   ADD_SUBTRACT = [:add,:subtract]
   ORIENTATIONS = [:left,:right]
 
+  def generate_solution_latex
+    solutions = generate_solution
+    result = ''
+    solutions.each do |solution_equation|
+      result += solution_equation.generate_latex + '\\\\' + "\n"
+    end
+    result.slice!(-3..-1)
+    result
+  end
+
+  def generate_latex
+    _single_expression(left_side) + '&=' + _single_expression(right_side)
+  end
+
+  def _single_expression(expression)
+    step_number = 1
+    expression.steps.inject(expression.initial_value.to_s) do |result, step|
+      result = _equation_next_step(result,step,step_number)
+      step_number += 1
+      result
+    end
+  end
+
+  def _equation_next_step(current_latex,step,step_number)
+    modified_latex = current_latex
+
+    if step.operation == :add && step.orientation == :left
+        modified_latex = step.value.to_s + '+' + modified_latex
+    end
+
+    if step.operation == :add && step.orientation == :right
+      modified_latex = modified_latex +  '+' + step.value.to_s
+    end
+
+    if step.operation == :subtract && step.orientation == :left
+        modified_latex = step.value.to_s + '-' + modified_latex
+    end
+
+    if step.operation == :subtract && step.orientation == :right
+      modified_latex = modified_latex +  '-' + step.value.to_s
+    end
+
+    if step.operation == :multiply
+      if step_number == 1
+        modified_latex = step.value.to_s + modified_latex
+      else
+        modified_latex = step.value.to_s + '\left(' + modified_latex + '\right)'
+      end
+    end
+
+    if step.operation == :divide && step.orientation == :left
+      modified_latex = '\frac{' + step.value.to_s + '}{' + modified_latex +  '}'
+    end
+
+    if step.operation == :divide && step.orientation == :right
+      modified_latex = '\frac{' + modified_latex + '}{' + step.value.to_s +  '}'
+    end
+
+    modified_latex
+  end
+
+
   def self.generate(options={steps:1,solution_range:10,variable:'x'})
     solution = rand(2..options[:solution_range])
     left_side = []

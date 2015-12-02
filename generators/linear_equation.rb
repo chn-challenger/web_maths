@@ -1,49 +1,59 @@
-require './generators/equation_step'
+# require './generators/equation_step'
 require './generators/evaluate'
 require './generators/equation'
 
 include Evaluate
 
-class LinearEquation
+class LinearEquation < Equation
 
   DEFAULT_RANGE = {add:50,subtract:50,multiply:9,divide:9}
   MULTIPLY_DIVIDE = [:multiply,:divide]
   ADD_SUBTRACT = [:add,:subtract]
   ORIENTATIONS = [:left,:right]
 
-  attr_reader :left_side, :right_side, :solution
-
-  def initialize(left_side,right_side,solution)
-    @left_side = left_side
-    @right_side = right_side
-    @solution = solution
-  end
-
-  def self.generate_one_sided(number_of_steps=1,solution_range=10,options={})
-    solution = rand(2..solution_range)
-    left_side = []
-    current_value = solution
-    number_of_steps.times do
-        next_step = self._next_step(left_side,current_value,options)
-        current_value = evaluate(current_value,[next_step])
-        left_side << next_step
-    end
-    LinearEquation.new(left_side,current_value,solution)
-  end
-
-  def self.generate_one_sided_questions(number_of_questions=12,number_of_steps=1,solution_range=10,options={})
+  # attr_reader :left_side, :right_side, :solution
+  #
+  # def initialize(left_side,right_side,solution)
+  #   @left_side = left_side
+  #   @right_side = right_side
+  #   @solution = solution
+  # end
+  def self.generate(number_of_questions=1,options={steps:1,solution_range:10,variable:'x'})
     questions = []
     number_of_questions.times do
-      questions << self.generate_one_sided(number_of_steps,solution_range,options)
+      questions << self._generate_one(options)
     end
     questions
   end
 
-  def ==(linear_equation)
-    left_side == linear_equation.left_side &&
-    right_side == linear_equation.right_side &&
-    solution == linear_equation.solution
+  def self._generate_one(options={steps:1,solution_range:10,variable:'x'})
+    solution = rand(2..options[:solution_range])
+    left_side = []
+    current_value = solution
+    options[:steps].times do
+        next_step = self._next_step(left_side,current_value,options)
+        current_value = evaluate(current_value,[next_step])
+        left_side << next_step
+    end
+    left_expression = Expression.new(options[:variable],left_side)
+    right_expression = Expression.new(current_value)
+    equation_solution = {options[:variable] => solution}
+    LinearEquation.new(left_expression,right_expression,equation_solution)
   end
+
+  # def self.generate_one_sided_questions(number_of_questions=12,number_of_steps=1,solution_range=10,options={})
+  #   questions = []
+  #   number_of_questions.times do
+  #     questions << self.generate_one_sided(number_of_steps,solution_range,options)
+  #   end
+  #   questions
+  # end
+
+  # def ==(linear_equation)
+  #   left_side == linear_equation.left_side &&
+  #   right_side == linear_equation.right_side &&
+  #   solution == linear_equation.solution
+  # end
 
   def convert_to_general_equation(variable_letter='x')
     equation_left = Expression.new(variable_letter,left_side)
@@ -111,3 +121,5 @@ class LinearEquation
   end
 
 end
+
+# p LinearEquation.generate(2,{steps:1,solution_range:10,variable:'x'})

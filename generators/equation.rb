@@ -10,6 +10,14 @@ class Equation
     @solution = solution
   end
 
+  def test
+    'hello'
+  end
+
+  def self.test
+    'hello'
+  end
+
   def ==(equation)
     left_side == equation.left_side && right_side == equation.right_side
   end

@@ -14,14 +14,18 @@ class LinearEquation < Equation
     solutions = generate_solution
     result = ''
     solutions.each do |solution_equation|
-      result += solution_equation.generate_latex + '\\\\' + "\n"
+      result += solution_equation.generate_latex(true) + '\\\\' + "\n"
     end
     result.slice!(-3..-1)
     result
   end
 
-  def generate_latex
-    _single_expression(left_side) + '&=' + _single_expression(right_side)
+  def generate_latex(with_align=false)
+    if with_align
+      _single_expression(left_side) + '&=' + _single_expression(right_side)
+    else
+      _single_expression(left_side) + '=' + _single_expression(right_side)
+    end
   end
 
   def _single_expression(expression)
@@ -70,7 +74,6 @@ class LinearEquation < Equation
 
     modified_latex
   end
-
 
   def self.generate(options={steps:1,solution_range:10,variable:'x'})
     solution = rand(2..options[:solution_range])

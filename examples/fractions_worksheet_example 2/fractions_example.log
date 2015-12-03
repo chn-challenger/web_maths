@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.20)  1 DEC 2015 16:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.24)  3 DEC 2015 12:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -222,47 +222,57 @@ LaTeX Font Info:    ... okay on input line 168.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Calculating math sizes for size <14> on input line 188.
-LaTeX Font Info:    Try loading font information for OT1+iwonam on input line 1
-88.
+LaTeX Font Info:    Calculating math sizes for size <14> on input line 269.
+LaTeX Font Info:    Try loading font information for OT1+iwonam on input line 2
+69.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/ot1iwonam.fd
 File: ot1iwonam.fd 2005/10/05 v1.2 font definition file for OT1/iwonam (MW)
 )
-LaTeX Font Info:    Try loading font information for OML+iwona on input line 18
-8.
+LaTeX Font Info:    Try loading font information for OML+iwona on input line 26
+9.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omliwona.fd
 File: omliwona.fd 2008/07/22 v0.995 font definition file for OML/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMS+iwona on input line 18
-8.
+LaTeX Font Info:    Try loading font information for OMS+iwona on input line 26
+9.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omsiwona.fd
 File: omsiwona.fd 2008/07/22 v0.995 font definition file for OMS/iwona (MW)
 )
-LaTeX Font Info:    Try loading font information for OMX+iwona on input line 18
-8.
+LaTeX Font Info:    Try loading font information for OMX+iwona on input line 26
+9.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/iwona/omxiwona.fd
 File: omxiwona.fd 2008/07/22 v0.995 font definition file for OMX/iwona (MW)
 )
-Overfull \hbox (18.10799pt too wide) in paragraph at lines 187--205
-[][] [] 
+Overfull \hbox (18.10799pt too wide) in paragraph at lines 268--382
+[][] []
  []
 
 
-Overfull \hbox (18.10799pt too wide) in paragraph at lines 209--225
-[][] [] 
+Overfull \hbox (3.10799pt too wide) in paragraph at lines 268--382
+[] []
  []
 
 
-Overfull \hbox (18.10799pt too wide) in paragraph at lines 229--245
-[][] [] 
+Overfull \hbox (3.10799pt too wide) in paragraph at lines 268--382
+[] []
  []
 
 
-Overfull \hbox (18.10799pt too wide) in paragraph at lines 249--265
-[][] [] 
+Overfull \hbox (3.10799pt too wide) in paragraph at lines 268--382
+[] []
+ []
+
+
+Overfull \hbox (3.10799pt too wide) in paragraph at lines 268--382
+[] []
+ []
+
+
+Overfull \hbox (3.10799pt too wide) in paragraph at lines 268--382
+[] []
  []
 
 [1
@@ -272,7 +282,7 @@ Overfull \hbox (18.10799pt too wide) in paragraph at lines 249--265
 Here is how much of TeX's memory you used:
  2138 strings out of 493089
  30863 string characters out of 6134841
- 122499 words of memory out of 5000000
+ 123499 words of memory out of 5000000
  5637 multiletter control sequences out of 15000+600000
  15544 words of font info for 26 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -282,7 +292,7 @@ ips/iwona/sy-iwona.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwon
 a/mi-iwona.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/iwona/rm-iwo
 na.enc}</usr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonar.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/nowacki/iwona/iwonari.pfb>
-Output written on fractions_example.pdf (2 pages, 36212 bytes).
+Output written on fractions_example.pdf (2 pages, 38315 bytes).
 PDF statistics:
  24 PDF objects out of 1000 (max. 8388607)
  17 compressed objects within 1 object stream

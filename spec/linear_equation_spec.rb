@@ -401,49 +401,49 @@ describe LinearEquation do
       it 'for right addition question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:add,5,:right)]),Expression.new(11))
-        expect(equation.generate_latex).to eq 'x+5&=11'
+        expect(equation.generate_latex).to eq 'x+5=11'
       end
 
       it 'for left addition question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:add,5,:left)]),Expression.new(11))
-        expect(equation.generate_latex).to eq '5+x&=11'
+        expect(equation.generate_latex).to eq '5+x=11'
       end
 
       it 'for right subtraction question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:subtract,5,:right)]),Expression.new(11))
-        expect(equation.generate_latex).to eq 'x-5&=11'
+        expect(equation.generate_latex).to eq 'x-5=11'
       end
 
       it 'for left subtraction question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:subtract,15,:left)]),Expression.new(11))
-        expect(equation.generate_latex).to eq '15-x&=11'
+        expect(equation.generate_latex).to eq '15-x=11'
       end
 
       it 'for right multiplication question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:multiply,5,:right)]),Expression.new(45))
-        expect(equation.generate_latex).to eq '5x&=45'
+        expect(equation.generate_latex).to eq '5x=45'
       end
 
       it 'for left multiplication question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:multiply,5,:left)]),Expression.new(15))
-        expect(equation.generate_latex).to eq '5x&=15'
+        expect(equation.generate_latex).to eq '5x=15'
       end
 
       it 'for right division question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:divide,5,:right)]),Expression.new(11))
-        expect(equation.generate_latex).to eq '\frac{x}{5}&=11'
+        expect(equation.generate_latex).to eq '\frac{x}{5}=11'
       end
 
       it 'for left division question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:divide,15,:left)]),Expression.new(3))
-        expect(equation.generate_latex).to eq '\frac{15}{x}&=3'
+        expect(equation.generate_latex).to eq '\frac{15}{x}=3'
       end
     end
 
@@ -452,42 +452,42 @@ describe LinearEquation do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:add,15,:left),EquationStep.new(:multiply,2,:right)]),
           Expression.new(31))
-        expect(equation.generate_latex).to eq "2\\left(15+x\\right)&=31"
+        expect(equation.generate_latex).to eq "2\\left(15+x\\right)=31"
       end
 
       it 'for left divide right subtract question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:divide,35,:left),EquationStep.new(:subtract,12,:right)]),
           Expression.new(416))
-        expect(equation.generate_latex).to eq "\\frac{35}{x}-12&=416"
+        expect(equation.generate_latex).to eq "\\frac{35}{x}-12=416"
       end
 
       it 'for right divide left add question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:divide,3,:right),EquationStep.new(:add,12,:left)]),
           Expression.new(67))
-        expect(equation.generate_latex).to eq "12+\\frac{x}{3}&=67"
+        expect(equation.generate_latex).to eq "12+\\frac{x}{3}=67"
       end
 
       it 'for right subtract left multiply question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:subtract,47,:right),EquationStep.new(:multiply,4,:left)]),
           Expression.new(15))
-        expect(equation.generate_latex).to eq "4\\left(x-47\\right)&=15"
+        expect(equation.generate_latex).to eq "4\\left(x-47\\right)=15"
       end
 
       it 'for left divide left add question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:divide,352,:left),EquationStep.new(:add,16,:left)]),
           Expression.new(23))
-        expect(equation.generate_latex).to eq "16+\\frac{352}{x}&=23"
+        expect(equation.generate_latex).to eq "16+\\frac{352}{x}=23"
       end
 
       it 'for left subtract left multiply question' do
         equation = LinearEquation.new(Expression.new('x',
           [EquationStep.new(:subtract,235,:left),EquationStep.new(:multiply,7,:left)]),
           Expression.new(125))
-        expect(equation.generate_latex).to eq "7\\left(235-x\\right)&=125"
+        expect(equation.generate_latex).to eq "7\\left(235-x\\right)=125"
       end
     end
 
@@ -499,7 +499,7 @@ describe LinearEquation do
         expression1 = double(:expression1, initial_value: 'x', steps: [step1,step2,step3])
         expression2 = double(:expression2, initial_value: 312, steps: [])
         equation = LinearEquation.new(expression1,expression2)
-        expect(equation.generate_latex).to eq "5\\left(13+x\\right)-23&=312"
+        expect(equation.generate_latex).to eq "5\\left(13+x\\right)-23=312"
       end
 
       it 'for left subtract left divide right subtract question' do
@@ -509,7 +509,7 @@ describe LinearEquation do
         expression1 = double(:expression1, initial_value: 'x', steps: [step1,step2,step3])
         expression2 = double(:expression2, initial_value: 23, steps: [])
         equation = LinearEquation.new(expression1,expression2)
-        expect(equation.generate_latex).to eq "\\frac{512}{135-x}-231&=23"
+        expect(equation.generate_latex).to eq "\\frac{512}{135-x}-231=23"
       end
     end
 
@@ -522,7 +522,7 @@ describe LinearEquation do
         expression1 = double(:expression1, initial_value: 'x', steps: [step1,step2,step3,step4])
         expression2 = double(:expression2, initial_value: 4, steps: [])
         equation = LinearEquation.new(expression1,expression2)
-        expect(equation.generate_latex).to eq "\\frac{548}{11+6\\left(17+x\\right)}&=4"
+        expect(equation.generate_latex).to eq "\\frac{548}{11+6\\left(17+x\\right)}=4"
       end
 
       it 'for five step question' do
@@ -534,7 +534,7 @@ describe LinearEquation do
         expression1 = double(:expression1, initial_value: 'x', steps: [step1,step2,step3,step4,step5])
         expression2 = double(:expression2, initial_value: 112, steps: [])
         equation = LinearEquation.new(expression1,expression2)
-        expect(equation.generate_latex).to eq "8\\left(\\frac{72}{36-3x}+11\\right)&=112"
+        expect(equation.generate_latex).to eq "8\\left(\\frac{72}{36-3x}+11\\right)=112"
       end
     end
   end
@@ -547,6 +547,32 @@ describe LinearEquation do
       expect(question.generate_solution_latex).to eq "x-47&=15\\\\\nx&=15+47\\\\\nx&=62"
     end
 
-  end
+    it 'for a two step question' do
+      question = LinearEquation.new(Expression.new('x',
+        [EquationStep.new(:subtract,47,:right),EquationStep.new(:multiply,2,:left)]),
+        Expression.new(100))
+      expect(question.generate_solution_latex).to eq "2\\left(x-47\\right)&=10"\
+        "0\\\\\nx-47&=\\frac{100}{2}\\\\\nx-47&=50\\\\\nx&=50+47\\\\\nx&=97"
+    end
 
+    it 'for a three step question' do
+      question = LinearEquation.new(Expression.new('x',
+        [EquationStep.new(:subtract,11,:right),EquationStep.new(:multiply,2,:left),
+          EquationStep.new(:add,42,:right)]),Expression.new(48))
+      expect(question.generate_solution_latex).to eq "2\\left(x-11\\right)+42&"\
+        "=48\\\\\n2\\left(x-11\\right)&=48-42\\\\\n2\\left(x-11\\right)&=6\\\\"\
+        "\nx-11&=\\frac{6}{2}\\\\\nx-11&=3\\\\\nx&=3+11\\\\\nx&=14"
+    end
+
+    it 'for a four step question' do
+      question = LinearEquation.new(Expression.new('x',
+        [EquationStep.new(:subtract,11,:right),EquationStep.new(:multiply,2,:left),
+          EquationStep.new(:add,42,:right),EquationStep.new(:divide,8,:right)]),
+        Expression.new(6))
+      expect(question.generate_solution_latex).to eq "\\frac{2\\left(x-11\\rig"\
+        "ht)+42}{8}&=6\\\\\n2\\left(x-11\\right)+42&=86\\\\\n2\\left(x-11\\rig"\
+        "ht)+42&=48\\\\\n2\\left(x-11\\right)&=48-42\\\\\n2\\left(x-11\\right)"\
+        "&=6\\\\\nx-11&=\\frac{6}{2}\\\\\nx-11&=3\\\\\nx&=3+11\\\\\nx&=14"
+    end
+  end
 end

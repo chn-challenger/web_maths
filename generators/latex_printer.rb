@@ -2,7 +2,9 @@ require './generators/fraction'
 require './generators/serial'
 require './generators/linear_equation'
 require './generators/equation'
+require './generators/question_generator'
 include SerialNumber
+include QuestionGenerator
 
 class LatexPrinter
 
@@ -22,170 +24,218 @@ class LatexPrinter
     "\\renewcommand{\\headrulewidth}{0pt}\n"\
     "\\pagestyle{fancy}\n"
 
-  def self.one_sided_linear_equation_question(question,unknow_variable)
-    step_number = 1
-    question.left_side.inject(unknow_variable) do |result, step|
-      result = self.one_sided_linear_equation_question_next_step(result,step,step_number)
-      step_number += 1
-      result
-    end + '=' + question.right_side.to_s
-  end
-
-  def self.general_equation_solution(equation)
-    solutions = equation.generate_solution
-    result = ''
-    solutions.each do |solution|
-      result += self.single_general_equation(solution) + '\\\\' + "\n"
-    end
-    result.slice!(-3..-1)
-    result
-  end
-
-  def self.single_general_equation(equation)
-    self._single_expression(equation.left_side) + '=' + self._single_expression(equation.right_side)
-  end
-
-  def self._single_expression(expression)
-    step_number = 1
-    expression.steps.inject(expression.initial_value.to_s) do |result, step|
-      result = self.equation_next_step(result,step,step_number)
-      step_number += 1
-      result
-    end
-  end
-
-  def self.equation_next_step(current_latex,step,step_number)
-    modified_latex = current_latex
-
-    if step.operation == :add && step.orientation == :left
-        modified_latex = step.value.to_s + '+' + modified_latex
-    end
-
-    if step.operation == :add && step.orientation == :right
-      modified_latex = modified_latex +  '+' + step.value.to_s
-    end
-
-    if step.operation == :subtract && step.orientation == :left
-        modified_latex = step.value.to_s + '-' + modified_latex
-    end
-
-    if step.operation == :subtract && step.orientation == :right
-      modified_latex = modified_latex +  '-' + step.value.to_s
-    end
-
-    if step.operation == :multiply
-      if step_number == 1
-        modified_latex = step.value.to_s + modified_latex
-      else
-        modified_latex = step.value.to_s + '\left(' + modified_latex + '\right)'
-      end
-    end
-
-    if step.operation == :divide && step.orientation == :left
-      modified_latex = '\frac{' + step.value.to_s + '}{' + modified_latex +  '}'
-    end
-
-    if step.operation == :divide && step.orientation == :right
-      modified_latex = '\frac{' + modified_latex + '}{' + step.value.to_s +  '}'
-    end
-
-    modified_latex
-  end
-
-  def self.one_sided_linear_equation_question_next_step(current_latex,step,step_number)
-    modified_latex = current_latex
-
-    if step.operation == :add && step.orientation == :left
-      if step_number == 1
-        modified_latex = step.value.to_s + '+' + modified_latex
-      else
-        modified_latex = step.value.to_s + '+' + modified_latex
-      end
-    end
-
-    if step.operation == :add && step.orientation == :right
-      modified_latex = modified_latex +  '+' + step.value.to_s
-    end
-
-    if step.operation == :subtract && step.orientation == :left
-      if step_number == 1
-        modified_latex = step.value.to_s + '-' + modified_latex
-      else
-        modified_latex = step.value.to_s + '-' + modified_latex
-      end
-    end
-
-    if step.operation == :subtract && step.orientation == :right
-      modified_latex = modified_latex +  '-' + step.value.to_s
-    end
-
-    if step.operation == :multiply
-      if step_number == 1
-        modified_latex = step.value.to_s + modified_latex
-      else
-        modified_latex = step.value.to_s + '\left(' + modified_latex + '\right)'
-      end
-    end
-
-    if step.operation == :divide && step.orientation == :left
-      modified_latex = '\frac{' + step.value.to_s + '}{' + modified_latex +  '}'
-    end
-
-    if step.operation == :divide && step.orientation == :right
-      modified_latex = '\frac{' + modified_latex + '}{' + step.value.to_s +  '}'
-    end
-
-    return modified_latex
-  end
-
-  def self.one_sided_linear_equation_sheet_content(questions,questions_per_row=2,number_of_rows=5,options={})
-    options[:variable] ||= 'x'
+  def self.print_content(questions,print_solution=false,format=:align,options={questions_per_row:2,number_of_rows:6})
+    latex = ''
     question_number = 1
-    content_latex = ''
 
-    for i in 1..number_of_rows
-      questions_per_row.times do
-        content_latex += '&' if question_number%questions_per_row != 1
-        content_latex += "&#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING}pt}"
-        content_latex += self.one_sided_linear_equation_question(questions[question_number-1],options[:variable])
-        question_number += 1
+    if format == :align
+      latex += "\\begin{align*}\n"
+      for i in 1..options[:number_of_rows]
+        options[:questions_per_row].times do
+          latex += '&' if question_number%options[:questions_per_row] != 1
+          latex += "&#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING}pt}"
+          unless print_solution
+            latex += questions[question_number-1].generate_latex
+          else
+            latex += questions[question_number-1].generate_solution_latex
+          end
+          question_number += 1
+        end
+        latex += "\\\\[#{LINE_SPACING}em]" if i != options[:number_of_rows]
+        latex += "\n"
       end
-      content_latex += '\\\[2em]' if i != number_of_rows
-      content_latex += "\n"
-    end
-      content_latex
-  end
-
-  def self.one_sided_linear_equation_sheet_solutions(questions,questions_per_row=2,number_of_rows=5,options={})
-    options[:variable] ||= 'x'
-    question_number = 1
-    solution_latex = ''
-    number_of_questions = number_of_rows * questions_per_row
-
-    solutions = []
-    questions.each do |question|
-      solution = question.convert_to_general_equation
-      solutions << solution
+      latex += "\\end{align*}\n"
+      return latex
     end
 
-    solutions
+    if format == :minipage
+      for i in 1..options[:number_of_rows]
+        options[:questions_per_row].times do
+          latex += "\\begin{minipage}[t]{#{1.to_f/options[:questions_per_row]}\\textwidth}\n\\begin{align*}\n"
+          latex += "#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING+15}pt}"
+          unless print_solution
+            latex += questions[question_number-1].generate_latex + "\n"
+          else
+            latex += questions[question_number-1].generate_solution_latex + "\n"
+          end
+          latex += "\\end{align*}\n\\end{minipage}\n"
+          question_number += 1
+        end
+        latex += "\n\\vspace{10 mm}\n\n"
+      end
+      return latex
+    end
+
   end
 
-  def self.one_sided_linear_equation_sheet(title='',student='',questions=nil,questions_per_row=2,number_of_rows=5,topic_prefix='LEN',options={})
 
-    content = self.one_sided_linear_equation_sheet_content(questions,questions_per_row,number_of_rows,options)
-    serial = generate_serial
 
-    latex_questions_sheet = HEADERS
-    latex_questions_sheet += "\\lfoot{#{topic_prefix}-#{serial}Q\\quad \\textc"\
-      "opyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{student:}\\quad"\
-      " #{student}}\n\\begin{document}\n"
-    latex_questions_sheet += "\\section*{\\centerline{Linear Equations #{title}}}\n\\"\
-      "vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
-    latex_questions_sheet += content + "\\end{align*}\n\\end{document}"
 
-    {questions_sheet:latex_questions_sheet}
-  end
+  #
+  # def self.one_sided_linear_equation_question(question,unknow_variable)
+  #   step_number = 1
+  #   question.left_side.inject(unknow_variable) do |result, step|
+  #     result = self.one_sided_linear_equation_question_next_step(result,step,step_number)
+  #     step_number += 1
+  #     result
+  #   end + '=' + question.right_side.to_s
+  # end
+  #
+  # def self.general_equation_solution(equation)
+  #   solutions = equation.generate_solution
+  #   result = ''
+  #   solutions.each do |solution|
+  #     result += self.single_general_equation(solution) + '\\\\' + "\n"
+  #   end
+  #   result.slice!(-3..-1)
+  #   result
+  # end
+  #
+  # def self.single_general_equation(equation)
+  #   self._single_expression(equation.left_side) + '=' + self._single_expression(equation.right_side)
+  # end
+  #
+  # def self._single_expression(expression)
+  #   step_number = 1
+  #   expression.steps.inject(expression.initial_value.to_s) do |result, step|
+  #     result = self.equation_next_step(result,step,step_number)
+  #     step_number += 1
+  #     result
+  #   end
+  # end
+  #
+  # def self.equation_next_step(current_latex,step,step_number)
+  #   modified_latex = current_latex
+  #
+  #   if step.operation == :add && step.orientation == :left
+  #       modified_latex = step.value.to_s + '+' + modified_latex
+  #   end
+  #
+  #   if step.operation == :add && step.orientation == :right
+  #     modified_latex = modified_latex +  '+' + step.value.to_s
+  #   end
+  #
+  #   if step.operation == :subtract && step.orientation == :left
+  #       modified_latex = step.value.to_s + '-' + modified_latex
+  #   end
+  #
+  #   if step.operation == :subtract && step.orientation == :right
+  #     modified_latex = modified_latex +  '-' + step.value.to_s
+  #   end
+  #
+  #   if step.operation == :multiply
+  #     if step_number == 1
+  #       modified_latex = step.value.to_s + modified_latex
+  #     else
+  #       modified_latex = step.value.to_s + '\left(' + modified_latex + '\right)'
+  #     end
+  #   end
+  #
+  #   if step.operation == :divide && step.orientation == :left
+  #     modified_latex = '\frac{' + step.value.to_s + '}{' + modified_latex +  '}'
+  #   end
+  #
+  #   if step.operation == :divide && step.orientation == :right
+  #     modified_latex = '\frac{' + modified_latex + '}{' + step.value.to_s +  '}'
+  #   end
+  #
+  #   modified_latex
+  # end
+  #
+  # def self.one_sided_linear_equation_question_next_step(current_latex,step,step_number)
+  #   modified_latex = current_latex
+  #
+  #   if step.operation == :add && step.orientation == :left
+  #     if step_number == 1
+  #       modified_latex = step.value.to_s + '+' + modified_latex
+  #     else
+  #       modified_latex = step.value.to_s + '+' + modified_latex
+  #     end
+  #   end
+  #
+  #   if step.operation == :add && step.orientation == :right
+  #     modified_latex = modified_latex +  '+' + step.value.to_s
+  #   end
+  #
+  #   if step.operation == :subtract && step.orientation == :left
+  #     if step_number == 1
+  #       modified_latex = step.value.to_s + '-' + modified_latex
+  #     else
+  #       modified_latex = step.value.to_s + '-' + modified_latex
+  #     end
+  #   end
+  #
+  #   if step.operation == :subtract && step.orientation == :right
+  #     modified_latex = modified_latex +  '-' + step.value.to_s
+  #   end
+  #
+  #   if step.operation == :multiply
+  #     if step_number == 1
+  #       modified_latex = step.value.to_s + modified_latex
+  #     else
+  #       modified_latex = step.value.to_s + '\left(' + modified_latex + '\right)'
+  #     end
+  #   end
+  #
+  #   if step.operation == :divide && step.orientation == :left
+  #     modified_latex = '\frac{' + step.value.to_s + '}{' + modified_latex +  '}'
+  #   end
+  #
+  #   if step.operation == :divide && step.orientation == :right
+  #     modified_latex = '\frac{' + modified_latex + '}{' + step.value.to_s +  '}'
+  #   end
+  #
+  #   return modified_latex
+  # end
+  #
+  # def self.one_sided_linear_equation_sheet_content(questions,questions_per_row=2,number_of_rows=5,options={})
+  #   options[:variable] ||= 'x'
+  #   question_number = 1
+  #   content_latex = ''
+  #
+  #   for i in 1..number_of_rows
+  #     questions_per_row.times do
+  #       content_latex += '&' if question_number%questions_per_row != 1
+  #       content_latex += "&#{question_number}.\\hspace{#{QUESTION_AND_NUMBER_SPACING}pt}"
+  #       content_latex += self.one_sided_linear_equation_question(questions[question_number-1],options[:variable])
+  #       question_number += 1
+  #     end
+  #     content_latex += '\\\[2em]' if i != number_of_rows
+  #     content_latex += "\n"
+  #   end
+  #     content_latex
+  # end
+  #
+  # def self.one_sided_linear_equation_sheet_solutions(questions,questions_per_row=2,number_of_rows=5,options={})
+  #   options[:variable] ||= 'x'
+  #   question_number = 1
+  #   solution_latex = ''
+  #   number_of_questions = number_of_rows * questions_per_row
+  #
+  #   solutions = []
+  #   questions.each do |question|
+  #     solution = question.convert_to_general_equation
+  #     solutions << solution
+  #   end
+  #
+  #   solutions
+  # end
+  #
+  # def self.one_sided_linear_equation_sheet(title='',student='',questions=nil,questions_per_row=2,number_of_rows=5,topic_prefix='LEN',options={})
+  #
+  #   content = self.one_sided_linear_equation_sheet_content(questions,questions_per_row,number_of_rows,options)
+  #   serial = generate_serial
+  #
+  #   latex_questions_sheet = HEADERS
+  #   latex_questions_sheet += "\\lfoot{#{topic_prefix}-#{serial}Q\\quad \\textc"\
+  #     "opyright\\, Joe Zhou, 2015}\n\\rfoot{\\textit{student:}\\quad"\
+  #     " #{student}}\n\\begin{document}\n"
+  #   latex_questions_sheet += "\\section*{\\centerline{Linear Equations #{title}}}\n\\"\
+  #     "vspace{#{TITLE_CONTENT_SPACE} mm}\n\\begin{align*}\n"
+  #   latex_questions_sheet += content + "\\end{align*}\n\\end{document}"
+  #
+  #   {questions_sheet:latex_questions_sheet}
+  # end
 
   def self.fraction_sheet_content(questions_per_row=2,number_of_rows=5,operation=['add'],
     integer_range=10,fraction_range=10)
@@ -270,3 +320,16 @@ class LatexPrinter
   end
 
 end
+
+
+# include QuestionGenerator
+#
+# questions = generate(12)
+
+
+
+
+
+
+
+#asd

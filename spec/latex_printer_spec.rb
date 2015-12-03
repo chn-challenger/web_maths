@@ -189,6 +189,7 @@ describe LatexPrinter do
       srand(300)
       questions = generate(6)
       latex = LatexPrinter.print_content(questions,true,:minipage,{questions_per_row:2,number_of_rows:3})
+      puts latex
       expect(latex).to eq "\\begin{minipage}[t]{0.5\\textwidth}\n\\begin{align"\
         "*}\n1.\\hspace{30pt}\\frac{47-x}{4}&=11\\\\\n47-x&=411\\\\\n47-x&=44"\
         "\\\\\n47-44&=x\\\\\n3&=x\n\\end{align*}\n\\end{minipage}\n\\begin{min"\

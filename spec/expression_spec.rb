@@ -109,4 +109,25 @@ describe Expression do
       expect(final_expression.initial_value).to eq 85
     end
   end
+
+  describe '#expand_bracket' do
+    it 'expands a bracket with 2 step' do
+      expression = Expression.new('x',[EquationStep.new(:add,3,:right),
+        EquationStep.new(:multiply,2,:left)])
+      expr_2x = Expression.new('x',[EquationStep.new(:multiply,2,:left)])
+      expected_expression = Expression.new(expr_2x,[EquationStep.new(:add,6,:right)])
+      expect(expression.expand_bracket).to eq expected_expression
+    end
+
+    it 'expands a bracket with 3 step' do
+      expression = Expression.new('x',[EquationStep.new(:subtract,25,:left),EquationStep.new(:add,3,:right),
+        EquationStep.new(:multiply,2,:left)])
+      expr_2x = Expression.new('x',[EquationStep.new(:multiply,2,:left)])
+      expected_expression = Expression.new(expr_2x,[EquationStep.new(:subtract,50,:left),
+        EquationStep.new(:add,6,:right)])
+      expect(expression.expand_bracket).to eq expected_expression
+    end
+
+  end
+
 end

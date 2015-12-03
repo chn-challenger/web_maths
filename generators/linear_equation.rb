@@ -10,8 +10,6 @@ class LinearEquation < Equation
   ADD_SUBTRACT = [:add,:subtract]
   ORIENTATIONS = [:left,:right]
 
-
-
   def self.generate(options={steps:1,solution_range:10,variable:'x'})
     solution = rand(2..options[:solution_range])
     left_side = []

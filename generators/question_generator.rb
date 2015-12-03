@@ -8,13 +8,13 @@ module QuestionGenerator
     questions
   end
 
-  def generate_solutions(questions)
-    solutions = []
-    questions.each do |question|
-      solutions << question.generate_solution
-    end
-    solutions
-  end
+  # def generate_solutions(questions)
+  #   solutions = []
+  #   questions.each do |question|
+  #     solutions << question.generate_solution
+  #   end
+  #   solutions
+  # end
 
 end
 

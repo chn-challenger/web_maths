@@ -10,14 +10,33 @@ class LinearEquation < Equation
   ADD_SUBTRACT = [:add,:subtract]
   ORIENTATIONS = [:left,:right]
 
-  def generate_solution_latex
-    solutions = generate_solution
-    result = ''
-    solutions.each do |solution_equation|
-      result += solution_equation.generate_latex(true) + '\\\\' + "\n"
+
+
+  def self.generate(options={steps:1,solution_range:10,variable:'x'})
+    solution = rand(2..options[:solution_range])
+    left_side = []
+    current_value = solution
+    options[:steps].times do
+        next_step = self._next_step(left_side,current_value,options)
+        current_value = evaluate(current_value,[next_step])
+        left_side << next_step
     end
-    result.slice!(-3..-1)
-    result
+    left_expression = Expression.new(options[:variable],left_side)
+    right_expression = Expression.new(current_value)
+    equation_solution = {options[:variable] => solution}
+    LinearEquation.new(left_expression,right_expression,equation_solution)
+  end
+
+  def generate_solution
+    solution_equations = []
+    equation = self.copy
+    solution_equations << equation
+    while true
+      equation = equation._solution_next_step
+      solution_equations << equation
+      break if equation.left_side.steps.count == 0 && equation.right_side.steps.count == 0
+    end
+    solution_equations
   end
 
   def generate_latex(with_align=false)
@@ -26,6 +45,16 @@ class LinearEquation < Equation
     else
       _single_expression(left_side) + '=' + _single_expression(right_side)
     end
+  end
+
+  def generate_solution_latex
+    solutions = generate_solution
+    result = ''
+    solutions.each do |solution_equation|
+      result += solution_equation.generate_latex(true) + '\\\\' + "\n"
+    end
+    result.slice!(-3..-1)
+    result
   end
 
   def _single_expression(expression)
@@ -75,32 +104,6 @@ class LinearEquation < Equation
     modified_latex
   end
 
-  def self.generate(options={steps:1,solution_range:10,variable:'x'})
-    solution = rand(2..options[:solution_range])
-    left_side = []
-    current_value = solution
-    options[:steps].times do
-        next_step = self._next_step(left_side,current_value,options)
-        current_value = evaluate(current_value,[next_step])
-        left_side << next_step
-    end
-    left_expression = Expression.new(options[:variable],left_side)
-    right_expression = Expression.new(current_value)
-    equation_solution = {options[:variable] => solution}
-    LinearEquation.new(left_expression,right_expression,equation_solution)
-  end
-
-  def generate_solution
-    solution_equations = []
-    equation = self.copy
-    solution_equations << equation
-    while true
-      equation = equation._solution_next_step
-      solution_equations << equation
-      break if equation.left_side.steps.count == 0 && equation.right_side.steps.count == 0
-    end
-    solution_equations
-  end
 
   def _solution_next_step
     self_copy = self.copy

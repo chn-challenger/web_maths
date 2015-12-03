@@ -36,11 +36,49 @@ class Expression
     last_step = copy.steps.pop
     copy.initial_value = Expression.new(copy.initial_value,[last_step])
     copy.steps.each do |step|
-      step.value *= last_step.value
+      if step.value.is_a?(Expression)
+        step.value.steps << last_step
+      else
+        step.value *= last_step.value
+      end
     end
     copy
   end
 
+  def simplify
+    copy = self.copy
+    similar_steps = []
+    i = 0
+    (0...copy.steps.length - 1).each do |i|
+      if _same_type?(copy.steps[i].operation, copy.steps[i+1].operation)
+        p "first if"
+        start_index ||= i
+        end_index = i + 1
+        p "======"
+        p start_index
+        p end_index
+        p "======"
+        # similar_steps << copy.steps.delete_at(i) if similar_steps.empty?
+        # similar_steps << copy.steps.delete_at(i)
+      else
+        if !!start_index
+          result = evaluate(0, copy.steps.slice!(start_index..end_index))
+          if result > 0
+            simplified_step = EquationStep.new(:add, result, :right)
+          else
+            simplified_step = EquationStep.new(:subtract, result.abs, :right)
+          end
+          copy.steps.insert(start_index, simplified_step)
+          return copy
+        end
+      end
+    end
+  end
+
+  def _same_type?(operation1, operation2)
+    add_subtract = [:add, :subtract]
+    (add_subtract.include?(operation1) && add_subtract.include?(operation2)) || (!add_subtract.include?(operation1) && !add_subtract.include?(operation2))
+  end
 
 end
 #

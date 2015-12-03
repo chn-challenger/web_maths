@@ -128,6 +128,35 @@ describe Expression do
       expect(expression.expand_bracket).to eq expected_expression
     end
 
+    it 'expands a bracket with a 1 step expression inside' do
+      exp1 = Expression.new('y', [])
+      expression = Expression.new('x',[EquationStep.new(:add,5,:right),EquationStep.new(:add,exp1,:right),
+        EquationStep.new(:multiply,2,:left)])
+      exp2 = Expression.new('x',[EquationStep.new(:multiply,2,:left)])
+      exp3 = Expression.new('y', [EquationStep.new(:multiply,2,:left)])
+      expected_expression = Expression.new(exp2,[EquationStep.new(:add,10,:right),
+        EquationStep.new(:add,exp3,:right)])
+      expect(expression.expand_bracket).to eq expected_expression
+    end
+
+    it 'expands a bracket with a 2 step expression inside' do
+      exp1 = Expression.new('y', [EquationStep.new(:add,5,:right)])
+      expression = Expression.new('x',[EquationStep.new(:add,5,:right),EquationStep.new(:add,exp1,:right),
+        EquationStep.new(:multiply,2,:left)])
+      exp2 = Expression.new('x',[EquationStep.new(:multiply,2,:left)])
+      exp3 = Expression.new('y', [EquationStep.new(:add,5,:right),EquationStep.new(:multiply,2,:left)])
+      expected_expression = Expression.new(exp2,[EquationStep.new(:add,10,:right),
+        EquationStep.new(:add,exp3,:right)])
+      expect(expression.expand_bracket).to eq expected_expression
+    end
+  end
+
+  describe '#simplify' do
+    it 'can simplify add and subtact' do
+      expression = Expression.new('x', [EquationStep.new(:add,5,:right),EquationStep.new(:subtract,3,:right), EquationStep.new(:multiply, 2,:right)])
+      expected_expression = Expression.new('x', [EquationStep.new(:add,2,:right)])
+      expect(expression.simplify).to eq expected_expression
+    end
   end
 
 end
